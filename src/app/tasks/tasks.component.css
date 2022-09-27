@@ -1,0 +1,18 @@
+.addTaskModal {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.todo__columns {
+  width: 90vw;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.task{
+  outline:1px solid red;
+  padding:10px;
+}

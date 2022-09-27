@@ -1,0 +1,37 @@
+<!-- <div *ngFor="let task of tasks$ | async">
+  <h3>{{ task.name }}</h3>
+  <p>{{ task.status }}</p>
+</div> -->
+
+<div *ngIf="tasks$ | async as tasks" class="todo__columns">
+<div class="column">
+  <h2>Todo</h2>
+  <button (click)="openAddTaskModal()">+</button>
+<div *ngFor="let todo of tasks | status: 'Todo'" class="task">
+<h3>{{todo.name}}</h3>
+<p>{{todo.status}}</p>
+</div>
+</div>
+
+<div class="column">
+<h2>In Progress</h2>
+<button (click)="openAddTaskModal()">+</button>
+<div *ngFor="let progress of tasks | status: 'In progress'" class="task">
+<h3>{{progress.name}}</h3>
+<p>{{progress.status}}</p>
+</div>
+</div>
+
+<div class="column">
+<h2>Done</h2>
+<button (click)="openAddTaskModal()">+</button>
+<div *ngFor="let done of tasks | status: 'Done'" class="task">
+<h3>{{done.name}}</h3>
+<p>{{done.status}}</p>
+</div>
+</div>
+</div>
+
+<app-modal *ngIf="showModal | async" class="addTaskModal">
+  <app-addTask-form></app-addTask-form>
+  </app-modal>

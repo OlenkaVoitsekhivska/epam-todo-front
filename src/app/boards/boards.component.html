@@ -1,0 +1,40 @@
+<h1>Boards</h1>
+<!-- <button (click)="setSort(asc)" #asc>ASC</button>
+<button (click)="setSort(descr)" #descr>DESC</button> -->
+<select name="" id="" (click)="setSort(asc)"  #asc>
+  <option value="" >ASC</option>
+<option value="ASC name">name</option>
+<option value="ASC date">date</option>
+<option value="ASC tasks">number of tasks</option>
+</select>
+
+<select name="" id="" (click)="setSort(desc.value)"  #desc>
+<option value="">DESC</option>
+<option value="DESC name">name</option>
+<option value="DESC date">date</option>
+<option value="DESC tasks">number of tasks</option>
+</select>
+
+<button (click)="openShowModal()">add board</button>
+<app-modal *ngIf="showModal | async" class="addBoardModal">
+<app-addBoard-form></app-addBoard-form>
+</app-modal>
+
+
+<!-- <div *ngFor="let board of boards|sort:sortOrder"> -->
+<div *ngFor="let board of boards$|async">
+
+  <button 
+type="button"
+
+  (click) = "saveCurrentBoard(board.id)">
+<h3>{{board.name}}</h3>
+<p>{{board.createdAt}}</p>
+<button (click) = "onDelete(board)">Delete</button>
+<button>Edit</button>
+</button>
+<router-outlet></router-outlet>
+
+</div>
+
+<!-- routerLink = "{{board.id}}/tasks"  -->

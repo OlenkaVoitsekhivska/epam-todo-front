@@ -1,0 +1,18 @@
+
+.modal__contents{
+  position: absolute;
+  z-index:100;
+  top:25%;
+  left:25%;
+  background: white;
+  opacity: 1;
+}
+.modal__overlay{
+  background: black;
+  opacity:0.8;
+  width: 100vw;
+  height: 100vh;
+  position:relative;
+}
+
+

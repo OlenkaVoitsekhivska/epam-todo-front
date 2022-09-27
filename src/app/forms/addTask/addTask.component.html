@@ -1,0 +1,35 @@
+<form
+  (ngSubmit)="onSubmit(addTaskForm)"
+  #addTaskForm="ngForm"
+>
+  <label for="name"></label>
+  <input
+    type="text"
+    id="name"
+    name="name"
+    placeholder="Name"
+    ngModel
+    required
+  />
+
+  <label for="status"></label>
+  <input
+    matInput
+    type="text"
+    id="status"
+    name="status"
+    placeholder="Status"
+    ngModel
+    required
+  />
+
+  <label for="image"></label>
+  <input
+    type="file"
+    id="image"
+    name="image"
+    placeholder="Image"
+    ngModel
+  />
+  <button type="submit">Add Task</button>
+</form>
