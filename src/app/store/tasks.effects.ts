@@ -6,15 +6,16 @@ import * as TaskActions from './tasks.action';
 import { TaskService } from '../services/tasks.service';
 import { Injectable } from '@angular/core';
 import { TaskI } from '../models/task.model';
+import { AddTaskI } from '../models/addTask.model';
 
 @Injectable()
 export class TaskEffects {
   getTasks$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TaskActions.GetTasks),
-      switchMap(() => {
+      switchMap(({ id }) => {
         return this.taskService
-          .getTasks()
+          .getTasks(id)
           .pipe(
             map((tasks: TaskI[]) => TaskActions.GetTasksSuccess({ tasks }))
           );
@@ -25,10 +26,10 @@ export class TaskEffects {
   addTask$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TaskActions.AddTask),
-      concatMap(({ task }) =>
+      concatMap(({ task, boardId }) =>
         this.taskService
-          .addTask(task)
-          .pipe(map(() => TaskActions.AddATaskSuccess()))
+          .addTask(task, boardId)
+          .pipe(map((task: any) => TaskActions.AddTaskSuccess({ task })))
       )
     )
   );
@@ -39,7 +40,7 @@ export class TaskEffects {
       concatMap(({ id }) =>
         this.taskService
           .deleteTask(id)
-          .pipe(map(() => TaskActions.DeleteTaskSuccess()))
+          .pipe(map(() => TaskActions.DeleteTaskSuccess({ id })))
       )
     )
   );
@@ -47,9 +48,9 @@ export class TaskEffects {
   updateTask$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TaskActions.UpdateTask),
-      concatMap(({ task }) =>
+      concatMap(({ id, task }) =>
         this.taskService
-          .updateTask(task)
+          .updateTask(id, task)
           .pipe(map(() => TaskActions.UpdateTaskSuccess()))
       )
     )

@@ -2,36 +2,98 @@
   <h3>{{ task.name }}</h3>
   <p>{{ task.status }}</p>
 </div> -->
+<h2>Tasks</h2>
 
-<div *ngIf="tasks$ | async as tasks" class="todo__columns">
-<div class="column">
-  <h2>Todo</h2>
-  <button (click)="openAddTaskModal()">+</button>
-<div *ngFor="let todo of tasks | status: 'Todo'" class="task">
-<h3>{{todo.name}}</h3>
-<p>{{todo.status}}</p>
-</div>
-</div>
+<select name="" id="" #filterParam>
+  <option value="">Filter By</option>
+  <option value="task">Task name</option>
+</select>
+<label for="filterTasks">Filter</label>
+<input
+  id="filterTasks"
+  type="text"
+  name="filter"
+  [(ngModel)]="filter"
+  (input)="setFilter(filterParam.value)"
+/>
 
-<div class="column">
-<h2>In Progress</h2>
-<button (click)="openAddTaskModal()">+</button>
-<div *ngFor="let progress of tasks | status: 'In progress'" class="task">
-<h3>{{progress.name}}</h3>
-<p>{{progress.status}}</p>
-</div>
-</div>
+<select name="" id="" #select>
+  <option value="">Sort By</option>
+  <option value="name">name</option>
+  <option value="date">date</option>
+</select>
 
-<div class="column">
-<h2>Done</h2>
-<button (click)="openAddTaskModal()">+</button>
-<div *ngFor="let done of tasks | status: 'Done'" class="task">
-<h3>{{done.name}}</h3>
-<p>{{done.status}}</p>
-</div>
-</div>
-</div>
+<button (click)="setSort(asc.innerText, select.value)" #asc>ASC</button>
+<button (click)="setSort(desc.innerText, select.value)" #desc>DESC</button>
 
-<app-modal *ngIf="showModal | async" class="addTaskModal">
-  <app-addTask-form></app-addTask-form>
+<div *ngIf="tasks$ | async as todos" class="todo__columns">
+  <div class="column">
+    <h2>Todo</h2>
+    <button (click)="openAddTaskModal('Todo')">+</button>
+    <div
+      *ngFor="
+        let todo of todos
+          | status: 'Todo'
+          | filterTasks: compositeFilter
+          | sort: sortOrder
+      "
+      class="task"
+    >
+      <h3>{{ todo.name }}</h3>
+      <p>{{ todo.createdAt | date }}</p>
+      <button (click)="deleteTask(todo.id)" type="button">Delete</button>
+      <button (click)="onEdit(todo)">Edit</button>
+    </div>
+  </div>
+
+  <div class="column">
+    <h2>In Progress</h2>
+    <button (click)="openAddTaskModal('In progress')">+</button>
+    <div
+      *ngFor="
+        let progress of todos
+          | status: 'In progress'
+          | filterTasks: compositeFilter
+          | sort: sortOrder
+      "
+      class="task"
+    >
+      <h3>{{ progress.name }}</h3>
+      <p>{{ progress.createdAt | date }}</p>
+      <button (click)="deleteTask(progress.id)" type="button">Delete</button>
+      <button (click)="onEdit(progress)">Edit</button>
+    </div>
+  </div>
+
+  <div class="column">
+    <h2>Done</h2>
+    <button (click)="openAddTaskModal('Done')">+</button>
+    <div
+      *ngFor="
+        let done of todos
+          | status: 'Done'
+          | filterTasks: compositeFilter
+          | sort: sortOrder
+      "
+      class="task"
+    >
+      <h3>{{ done.name }}</h3>
+      <p>{{ done.createdAt | date }}</p>
+      <button (click)="deleteTask(done.id)" type="button">Delete</button>
+      <button (click)="onEdit(done)">Edit</button>
+    </div>
+  </div>
+  <!-- <div *ngFor="let done of todos" class="task">
+      <h3>{{ done.name }}</h3>
+      <p>{{ done.status }}</p>
+    </div>
+  </div> -->
+
+  <app-modal *ngIf="editModal | async" class="addBoardModal">
+    <app-edit-task [task]="activeTask"></app-edit-task>
   </app-modal>
+
+  <app-modal *ngIf="addTaskModal | async" class="addTaskModal">
+    <app-addTask-form [status]="statusOutput"></app-addTask-form>
+  </app-modal>
+</div>

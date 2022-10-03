@@ -1,26 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import {modalClose} from '../../store/modal.action'
-import {Store} from '@ngrx/store';
+import { addTaskClose, modalClose } from '../../store/modal.action';
+import { Store } from '@ngrx/store';
+import { AddTask } from 'src/app/store/tasks.action';
+import { AddTaskI } from '../../models/addTask.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-addTask-form',
   templateUrl: './addTask.component.html',
-  styleUrls: ['./addTask.component.css'],
+  styleUrls: ['./addTask.component.scss'],
 })
 export class AddTaskFormComponent implements OnInit {
-constructor(private store:Store){}
+  constructor(private store: Store, private activatedRoute: ActivatedRoute) {}
+  @Input() status = '';
   ngOnInit(): void {}
 
-  onSubmit(form:NgForm) {
-    const data = {
+  onSubmit(form: NgForm) {
+    const boardId: any = this.activatedRoute.snapshot.paramMap.get('id');
+    const data: AddTaskI = {
       name: form.value.name,
-      status: form.value.status,
+      status: this.status,
       image: form.value.image,
+      boardId,
     };
     console.log(data);
-     
-        this.store.dispatch(modalClose())
-    // this.state.dispatch(AddBoard(this.addBoardForm.value))
+
+    this.store.dispatch(AddTask({ task: data, boardId }));
+    this.store.dispatch(addTaskClose());
+  }
+
+  close() {
+    this.store.dispatch(addTaskClose());
   }
 }

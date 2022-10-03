@@ -1,40 +1,54 @@
 <h1>Boards</h1>
-<!-- <button (click)="setSort(asc)" #asc>ASC</button>
-<button (click)="setSort(descr)" #descr>DESC</button> -->
-<select name="" id="" (click)="setSort(asc)"  #asc>
-  <option value="" >ASC</option>
-<option value="ASC name">name</option>
-<option value="ASC date">date</option>
-<option value="ASC tasks">number of tasks</option>
+
+<select name="" id="" #filterParam>
+  <option value="">Filter By</option>
+  <option value="board">Board name</option>
+  <option value="task">Task name</option>
+</select>
+<label for="filterBoards">Filter</label>
+<input
+  id="filterBoards"
+  type="text"
+  name="filter"
+  [(ngModel)]="filter"
+  (input)="setFilter(filterParam.value)"
+/>
+
+<select name="" id="" #select>
+  <option value="">Sort By</option>
+  <option value="name">name</option>
+  <option value="date">date</option>
+  <option value="tasks">number of tasks</option>
 </select>
 
-<select name="" id="" (click)="setSort(desc.value)"  #desc>
-<option value="">DESC</option>
-<option value="DESC name">name</option>
-<option value="DESC date">date</option>
-<option value="DESC tasks">number of tasks</option>
-</select>
+<button (click)="setSort(asc.innerText, select.value)" #asc>ASC</button>
+<button (click)="setSort(desc.innerText, select.value)" #desc>DESC</button>
 
 <button (click)="openShowModal()">add board</button>
-<app-modal *ngIf="showModal | async" class="addBoardModal">
-<app-addBoard-form></app-addBoard-form>
+<app-modal *ngIf="addModal | async" class="addBoardModal">
+  <app-addBoard-form></app-addBoard-form>
 </app-modal>
 
-
-<!-- <div *ngFor="let board of boards|sort:sortOrder"> -->
-<div *ngFor="let board of boards$|async">
-
-  <button 
-type="button"
-
-  (click) = "saveCurrentBoard(board.id)">
-<h3>{{board.name}}</h3>
-<p>{{board.createdAt}}</p>
-<button (click) = "onDelete(board)">Delete</button>
-<button>Edit</button>
-</button>
-<router-outlet></router-outlet>
-
+<div *ngIf="boards$ | async as bread">
+  <div
+    *ngFor="
+      let board of bread | filterBoards: compositeFilter | sort: sortOrder
+    "
+  >
+    <div>
+      <h3>{{ board.name }}</h3>
+      <p>{{ board.createdAt | date }}</p>
+      <button routerLink="/boards/{{ board.id }}/tasks">Details</button>
+      <button (click)="onDelete(board)">Delete</button>
+      <button (click)="onEdit(board)">Edit</button>
+    </div>
+    <app-modal *ngIf="editModal | async" class="addBoardModal">
+      <app-editBoard-form [board]="activeBoard"></app-editBoard-form>
+    </app-modal>
+    <router-outlet></router-outlet>
+  </div>
 </div>
-
 <!-- routerLink = "{{board.id}}/tasks"  -->
+<!-- (click)="saveCurrentBoard(board.id)"-->
+
+<!-- <div *ngFor="let board of bread | sort: sortOrder | userId: currentUser"> -->

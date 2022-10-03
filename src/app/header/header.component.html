@@ -1,0 +1,19 @@
+<h1>HEADER</h1>
+
+<nav *ngIf="currentUser$ | async as user">
+  <ng-container *ngIf="user.email; else or">
+    <span>{{ user.email }}</span>
+    <a mat-button routerLink="/home" routerLinkActive>Home</a>
+    <a mat-button routerLink="/boards" routerLinkActive="mat-primary">Boards</a>
+    <button type="button" (click)="logout()">Logout</button>
+  </ng-container>
+</nav>
+
+<ng-template #or>
+  <nav>
+    <a mat-button routerLink="/home" routerLinkActive>Home</a>
+    <a mat-button routerLink="/boards" routerLinkActive="mat-primary">Boards</a>
+    <a routerLink="/signup" routerLinkActive="mat-primary">Signup</a>
+    <a routerLink="/login" routerLinkActive="mat-primary">Login</a>
+  </nav>
+</ng-template>

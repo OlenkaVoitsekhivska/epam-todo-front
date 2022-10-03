@@ -1,38 +1,39 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
-import { from, map, Observable, Subject, switchMap } from 'rxjs';
+import { from, map, Observable, Subject, switchMap } from "rxjs";
 
-
-import {TaskI} from '../models/task.model'
+import { TaskI } from "../models/task.model";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class TaskService {
-  private apiUrl = 'https://jsonplaceholder.typicode.com/todos';
+  private apiUrl = "http://localhost:3000/api/tasks";
 
   constructor(private http: HttpClient) {}
 
   composeUrl(id: string): string {
     return `${this.apiUrl}/${id}`;
   }
-  getTasks(): Observable<TaskI[]> {
-    return this.http.get<TaskI[]>(this.apiUrl);
+  getTasks(id: string): Observable<TaskI[]> {
+    const url = this.composeUrl(id);
+    return this.http.get<TaskI[]>(url);
   }
 
-  addTask(task: TaskI) {
-    return this.http.post<TaskI>(this.apiUrl, task);
+  addTask(task: any, boardId: string) {
+    const url = this.composeUrl(boardId);
+    return this.http.post(url, task);
   }
 
-  deleteTask(id:string){
-    //compose url with id
-    return this.http.delete(this.apiUrl)
+  deleteTask(id: string) {
+    const url = this.composeUrl(id);
+    return this.http.delete(url);
   }
 
-  updateTask(task:TaskI){
-    return this.http.put(this.apiUrl, task)
+  updateTask(id: string, task: TaskI) {
+    const url = this.composeUrl(id);
+    return this.http.put(url, task);
   }
-
 }
