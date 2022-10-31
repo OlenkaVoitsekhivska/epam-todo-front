@@ -1,41 +1,52 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
 
-import { from, map, Observable, Subject, switchMap } from "rxjs";
+import { Observable } from 'rxjs';
 
-import { BoardI } from "../models/board.model";
+import { Board } from '../models/board.model';
+
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class BoardService {
-  private apiUrl = "http://localhost:3000/api/boards";
+  private apiUrl = environment.url;
 
   constructor(private http: HttpClient) {}
 
   composeUrl(id: string): string {
-    return `${this.apiUrl}/${id}`;
+    return `${this.apiUrl}/boards/${id}`;
   }
-  getBoards(id: string): Observable<BoardI[]> {
+  getBoards(id: string): Observable<Board[]> {
     const url = this.composeUrl(id);
-    return this.http.get<BoardI[]>(url);
+    return this.http.get<Board[]>(url);
   }
 
-  addBoard(board: BoardI, userId: string) {
+  getBoardById(id: string) {
+    console.log('log from service', id);
+    const url = `${this.composeUrl(id)}/getTasks`;
+    return this.http.get<Board>(url);
+  }
+
+  addBoard(board: Board, userId: string) {
     const url = this.composeUrl(userId);
-    return this.http.post<BoardI>(url, board);
+    return this.http.post<Board>(url, board);
   }
 
   deleteBoard(id: string) {
-    //compose url with id
     const url = this.composeUrl(id);
-
     return this.http.delete(url);
   }
 
-  updateBoard(id: string, board: BoardI) {
+  updateBoard(id: string, board: Partial<Board>) {
     const url = this.composeUrl(id);
-    return this.http.put(url, board);
+    return this.http.put<Board>(url, board);
+  }
+
+  updateColor(id: string, board: Partial<Board>) {
+    const url = this.composeUrl(id);
+    return this.http.patch(url, board);
   }
 }

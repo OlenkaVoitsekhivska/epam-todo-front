@@ -1,0 +1,15 @@
+<div>
+  <button (click)="close()">X</button>
+  <form [formGroup]="addCommentForm" (ngSubmit)="onSubmit(); close()">
+    <label for="name"></label>
+    <input
+      type="text"
+      id="name"
+      formControlName="name"
+      placeholder="Name"
+      ngModel
+      required
+    />
+    <button type="submit">Submit Comment</button>
+  </form>
+</div>

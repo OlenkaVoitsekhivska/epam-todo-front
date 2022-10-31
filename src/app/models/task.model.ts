@@ -1,13 +1,20 @@
-export interface TaskI{
-  id: string,
-  createdAt:Date|null,
-  name: string|null,
-  status: null|StatusE,
-  boardId:string
+interface Comment {
+  id: string;
+  name: string;
 }
 
-enum StatusE  {
-  TODO='Todo',
-  IN_PROGRESS='In progress',
-  DONE = 'Done'
+export interface Task {
+  id: string;
+  createdAt: Date | null;
+  name: string | null;
+  status: null | StatusE;
+  boardId: string;
+  image: string;
+  userComments: any;
+}
+
+enum StatusE {
+  TODO = 'Todo',
+  IN_PROGRESS = 'In progress',
+  DONE = 'Done',
 }

@@ -2,8 +2,11 @@
 .modal__contents{
   position: absolute;
   z-index:100;
-  top:25%;
-  left:25%;
+  // top:25%;
+  // left:25%;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
   background: white;
   opacity: 1;
 }

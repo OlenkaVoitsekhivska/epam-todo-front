@@ -1,17 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { BoardsComponent } from './boards/boards.component';
-import { LoginFormComponent } from './forms/login-form/login-form.component';
 import { RedirGuard } from './services/redir.guard';
-import { SignupFormComponent } from './forms/signup-form/signup-form.component';
+import { WildCardComponent } from './wild-card/wild-card.component';
+import { SignupFormComponent } from './signup/signup-form/signup-form.component';
+import { LoginFormComponent } from './login/login-form/login-form.component';
+import { BoardsComponent } from './boards/boards.component';
 import { TasksComponent } from './tasks/tasks.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/boards',
+    redirectTo: '/login',
     pathMatch: 'full',
   },
+
   {
     path: 'signup',
     component: SignupFormComponent,
@@ -30,13 +32,14 @@ const routes: Routes = [
   },
   {
     path: '**',
-    component: BoardsComponent,
+    component: WildCardComponent,
+    canActivate: [RedirGuard],
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  // providers: [RedirGuard],
+  providers: [RedirGuard],
 })
 export class AppRoutingModule {}

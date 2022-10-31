@@ -1,13 +1,13 @@
-import { Pipe, PipeTransform } from "@angular/core";
-import { TaskI } from "../models/task.model";
+import { Pipe, PipeTransform } from '@angular/core';
+import { Task } from '../models/task.model';
 
-type StatusT = "Todo" | "In progress" | "Done";
+type StatusT = 'Todo' | 'In progress' | 'Done';
 
 @Pipe({
-  name: "status",
+  name: 'status',
 })
 export class TaskStatusPipe implements PipeTransform {
-  transform(tasks: TaskI[], status: StatusT): TaskI[] {
+  transform(tasks: Task[], status: StatusT): Task[] {
     const copy = [...tasks];
     return copy.filter((task) => {
       return task.status === status;

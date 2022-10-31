@@ -1,26 +1,21 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { BoardI } from '../models/board.model';
-import { boards } from './boards';
+import { Component, OnInit } from '@angular/core';
+import { Board } from '../models/board.model';
 import { Store } from '@ngrx/store';
-import {
-  // SetCurrentBoard,
-  GetBoards,
-  DeleteBoard,
-} from '../store/boards.action';
-import {
-  editBoardModalSelector,
-  showBoardModalSelector,
-} from '../store/modal.selectors';
-import { modalOpen, modalClose, editBoardOpen } from '../store/modal.action';
-import { Observable } from 'rxjs';
-import { AddBoardFormComponent } from '../forms/addBoard/addBoard.component';
-import { ActivatedRoute } from '@angular/router';
-import { HttpParams } from '@angular/common/http';
+import { deleteBoard, getBoards } from '../store/actions/boards.action';
 
-enum OrderE {
-  ASC = 'ASC',
-  DESC = 'DESC',
-}
+import { Observable } from 'rxjs';
+
+import { ActivatedRoute } from '@angular/router';
+
+import { selectAllBoards } from '../store/selectors/boards.selectors';
+import { Task } from '../models/task.model';
+import {
+  faArrowDownShortWide,
+  faArrowUpWideShort,
+  faPenToSquare,
+  faPlus,
+  faTrashCan,
+} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'boards-app',
@@ -28,14 +23,28 @@ enum OrderE {
   styleUrls: ['./boards.component.scss'],
 })
 export class BoardsComponent implements OnInit {
-  sortOrder: string = '';
-  filter: string = '';
-  compositeFilter: string = '';
-  addModal: Observable<boolean> = this.store.select(showBoardModalSelector);
-  editModal: Observable<boolean> = this.store.select(editBoardModalSelector);
+  organize = {
+    sortOrder: '',
+    filter: '',
+    compositeFilter: '',
+  };
+
+  modal = {
+    addModal: false,
+    editModal: false,
+  };
+
   currentUser: any;
-  boards$: Observable<BoardI[]> = this.store.select((state) => state.boards);
-  activeBoard!: BoardI;
+  activeBoard!: Board;
+  boards$: Observable<Board[]> = this.store.select(selectAllBoards);
+
+  icons = {
+    desc: faArrowDownShortWide,
+    asc: faArrowUpWideShort,
+    delete: faTrashCan,
+    edit: faPenToSquare,
+    add: faPlus,
+  };
 
   constructor(
     private store: Store<any>,
@@ -44,32 +53,41 @@ export class BoardsComponent implements OnInit {
 
   ngOnInit() {
     this.currentUser = this.activatedRoute.snapshot.paramMap.get('id');
-    this.store.dispatch(GetBoards({ id: this.currentUser }));
+    this.store.dispatch(getBoards({ id: this.currentUser }));
   }
 
   onDelete(board: any) {
-    this.store.dispatch(DeleteBoard({ id: board.id }));
+    this.store.dispatch(deleteBoard({ id: board.id }));
   }
 
   onEdit(board: any) {
-    console.log(board);
     this.activeBoard = board;
-    this.store.dispatch(editBoardOpen());
+    this.modal.editModal = true;
   }
 
   setSort(order: string, select: any) {
-    this.sortOrder = `${order} ${select}`;
-    console.log(this.sortOrder);
+    this.organize.sortOrder = `${order} ${select}`;
   }
   setFilter(param: string) {
-    if (this.filter === '' || param === '') {
-      return (this.compositeFilter = '');
+    if (this.organize.filter === '' || param === '') {
+      this.organize.compositeFilter = '';
     }
-    return (this.compositeFilter = `${param} ${this.filter}`);
+    this.organize.compositeFilter = `${param} ${this.organize.filter}`;
   }
 
   openShowModal() {
-    console.log('open add modal');
-    this.store.dispatch(modalOpen());
+    this.modal.addModal = true;
+  }
+  onClose() {
+    this.modal.addModal = false;
+    this.modal.editModal = false;
+  }
+
+  taskPerColumn(taskArry: Partial<Task>[], status: string) {
+    if (typeof taskArry === 'undefined') {
+      return 0;
+    }
+    return taskArry.filter((task: Partial<Task>) => task.status === status)
+      .length;
   }
 }

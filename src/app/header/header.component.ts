@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { currentUserSelector } from '../store/user.selectors';
-import { Logout } from '../store/user.action';
+import { currentUserSelector } from '../store/selectors/user.selectors';
+import { Logout } from '../store/actions/user.action';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-header',
@@ -12,10 +13,10 @@ import { Logout } from '../store/user.action';
 export class HeaderComponent implements OnInit {
   constructor(private store: Store) {}
   currentUser$: Observable<any> = this.store.select(currentUserSelector);
+  userIcon = faUser;
 
   ngOnInit(): void {}
   logout() {
     this.store.dispatch(Logout());
-    console.log('bye');
   }
 }

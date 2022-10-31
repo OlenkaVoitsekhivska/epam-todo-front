@@ -1,69 +1,80 @@
 import { NgModule } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
-import { BoardsReducer } from './store/boards.reducer';
-import { TasksReducer } from './store/tasks.reducer';
-import {
-  ModalReducer,
-  EditBoardReducer,
-  AddTaskReducer,
-  SignupReducer,
-  LoginReducer,
-  EditTaskReducer,
-} from './store/modal.reducer';
+import { BoardsReducer } from './store/reducers/boards.reducer';
+import { TasksReducer } from './store/reducers/tasks.reducer';
+
 import { EffectsModule } from '@ngrx/effects';
-import { BoardEffects } from './store/boards.effects';
+import { BoardEffects } from './store/effects/boards.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { ToastrModule } from 'ngx-toastr';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+
+import { BoardsComponent } from './boards/boards.component';
+import { AddBoardFormComponent } from './boards/add-board/addBoard.component';
+import { EditBoardFormComponent } from './boards/edit-board/editBoard.component';
+import { FilterBoardsPipe } from './pipes/filter-boards.pipe';
+
+import { TasksComponent } from './tasks/tasks.component';
+import { TaskStatusPipe } from './pipes/taskStatus.pipe';
+import { AddTaskFormComponent } from './tasks/add-task/addTask.component';
+import { FilterTasksPipe } from './pipes/filter-tasks.pipe';
+import { EditTaskComponent } from './tasks/edit-task/edit-task.component';
 
 import { AppComponent } from './app.component';
-import { BoardsComponent } from './boards/boards.component';
-import { TasksComponent } from './tasks/tasks.component';
+
 import { AppRoutingModule } from './app-routing.module';
 import { SortPipe } from './pipes/sort.pipe';
-import { TaskStatusPipe } from './pipes/taskStatus.pipe';
-import { FindTasksById } from './pipes/findTasksById.pipe';
-import { FindBoardsById } from './pipes/findBoardsById.pipe';
+
 import { ModalComponent } from './modal/modal.component';
-import { AddBoardFormComponent } from './forms/addBoard/addBoard.component';
-import { EditBoardFormComponent } from './forms/editBoard/editBoard.component';
-import { AddTaskFormComponent } from './forms/addTask/addTask.component';
-import { TaskEffects } from './store/tasks.effects';
+
+import { TaskEffects } from './store/effects/tasks.effects';
 import { TokenInterceptor } from './services/token.interceptor';
 import { ErrorInterceptor } from './services/error.interceptor';
-import { LoginFormComponent } from './forms/login-form/login-form.component';
-import { SignupFormComponent } from './forms/signup-form/signup-form.component';
-import { CurrentUserReducer, UserReducer } from './store/user.reducer';
-import { UserEffects } from './store/user.effects';
+import { LoginFormComponent } from './login/login-form/login-form.component';
+import { SignupFormComponent } from './signup/signup-form/signup-form.component';
+import { CurrentUserReducer } from './store/reducers/user.reducer';
+import { UserEffects } from './store/effects/user.effects';
 import { HeaderComponent } from './header/header.component';
-import { FilterBoardsPipe } from './pipes/filter-boards.pipe';
-import { FilterTasksPipe } from './pipes/filter-tasks.pipe';
-import { EditTaskComponent } from './forms/edit-task/edit-task.component';
+
 import { environment } from '../environments/environment';
+import { ColorpickerDirective } from './directives/colorpicker/colorpicker.directive';
+
+import { AddCommentComponent } from './tasks/add-comment/add-comment.component';
+import { CommentsEffects } from './store/effects/comments.effects';
+
+import { SingleBoardEffects } from './store/effects/board.effects';
+import { BoardReducer } from './store/reducers/board.reducer';
+import { WildCardComponent } from './wild-card/wild-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BoardsComponent,
-    TasksComponent,
-    SortPipe,
-    TaskStatusPipe,
-    FindTasksById,
-    FindBoardsById,
-    ModalComponent,
     AddBoardFormComponent,
-    AddTaskFormComponent,
     EditBoardFormComponent,
+    SortPipe,
+    TasksComponent,
+    TaskStatusPipe,
+    AddTaskFormComponent,
+    FilterTasksPipe,
+    EditTaskComponent,
+    ModalComponent,
+
     LoginFormComponent,
     SignupFormComponent,
     HeaderComponent,
     FilterBoardsPipe,
-    FilterTasksPipe,
-    EditTaskComponent,
+
+    ColorpickerDirective,
+
+    AddCommentComponent,
+    WildCardComponent,
   ],
   imports: [
     HttpClientModule,
@@ -72,33 +83,35 @@ import { environment } from '../environments/environment';
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    EffectsModule.forRoot([BoardEffects, TaskEffects, UserEffects]),
+    DragDropModule,
 
-    StoreDevtoolsModule.instrument({
-      maxAge: 25,
+    ToastrModule.forRoot({
+      timeOut: 1000,
     }),
-    ToastrModule.forRoot(),
+
     StoreModule.forRoot(
       {
-        users: UserReducer,
         loggedUser: CurrentUserReducer,
+        board: BoardReducer,
         boards: BoardsReducer,
         tasks: TasksReducer,
-        // currentBoard: CurrentBoardReducer,
-        addBoardModal: ModalReducer,
-        editBoardModal: EditBoardReducer,
-        addTaskModal: AddTaskReducer,
-        editTaskModal: EditTaskReducer,
-        signupModal: SignupReducer,
-        loginModal: LoginReducer,
+        // comments: CommentsReducer,
       },
       {}
     ),
-
+    EffectsModule.forRoot([
+      SingleBoardEffects,
+      BoardEffects,
+      TaskEffects,
+      UserEffects,
+      CommentsEffects,
+    ]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
     }),
+
+    FontAwesomeModule,
   ],
   providers: [
     {

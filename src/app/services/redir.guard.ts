@@ -23,9 +23,9 @@ export class RedirGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    let userToken = JSON.parse(localStorage.getItem('user') || '{}');
+    let userToken = JSON.parse(localStorage.getItem('user') || '{}').token;
     if (!userToken) {
-      this.router.navigate(['/login']);
+      this.router.navigate(['login']);
     }
     return userToken;
   }

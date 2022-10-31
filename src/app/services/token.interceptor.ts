@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import {
-  HttpRequest,
-  HttpHandler,
   HttpEvent,
+  HttpHandler,
   HttpInterceptor,
+  HttpRequest,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
-import { currentUserSelector } from '../store/user.selectors';
-import { Store } from '@ngrx/store';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -18,25 +16,11 @@ export class TokenInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    let userToken = JSON.parse(localStorage.getItem('user') || '{}');
+    let userToken = JSON.parse(localStorage.getItem('user') || '{}').token;
     return next.handle(
       request.clone({
         headers: request.headers.set('Authorization', 'Bearer ' + userToken),
       })
     );
   }
-
-  // intercept(
-  //   request: HttpRequest<any>,
-  //   next: HttpHandler
-  // ): Observable<HttpEvent<any>> {
-  //   const userToken = JSON.parse(localStorage.getItem("user")).token;
-
-  //   console.log(userToken);
-  //   return next.handle(
-  //     request.clone({
-  //       headers: request.headers.set("Authorization", "Bearer " + userToken),
-  //     })
-  //   );
-  // }
 }
