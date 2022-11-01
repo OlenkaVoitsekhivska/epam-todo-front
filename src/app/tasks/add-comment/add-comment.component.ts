@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AddComment } from 'src/app/store/actions/comment.actions';
 import { Store } from '@ngrx/store';
 import { Task } from 'src/app/models/task.model';
-import { AddComment } from 'src/app/store/actions/comment.actions';
 
 @Component({
   selector: 'app-add-comment',
@@ -18,8 +18,14 @@ export class AddCommentComponent implements OnInit {
 
   ngOnInit(): void {
     this.addCommentForm = new FormGroup({
-      name: new FormControl(null, [Validators.required]),
+      name: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(1),
+      ]),
     });
+  }
+  get name() {
+    return this.addCommentForm.get('name');
   }
 
   close() {

@@ -8,6 +8,12 @@
         formControlName="email"
         placeholder="Email"
       />
+      <p
+        *ngIf="email?.invalid && (email?.touched || email?.dirty)"
+        class="error-message"
+      >
+        Enter email
+      </p>
     </div>
 
     <div>
@@ -18,15 +24,14 @@
         formControlName="password"
         placeholder="Password"
       />
+      <p
+        *ngIf="password?.invalid && (password?.touched || password?.dirty)"
+        class="error-message"
+      >
+        Make sure to enter your password
+      </p>
     </div>
 
-    <button
-      type="submit"
-      [disabled]="
-        loginForm.get('email')?.invalid || loginForm.get('password')?.invalid
-      "
-    >
-      Sign-in
-    </button>
+    <button type="submit" [disabled]="loginForm.invalid">Sign-in</button>
   </form>
 </div>

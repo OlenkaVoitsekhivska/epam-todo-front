@@ -20,9 +20,16 @@ export class EditTaskComponent implements OnInit {
 
   ngOnInit(): void {
     this.editTaskForm = new FormGroup({
-      name: new FormControl(this.task.name, [Validators.required]),
+      name: new FormControl(this.task.name, [
+        Validators.required,
+        Validators.minLength(1),
+      ]),
     });
   }
+  get name() {
+    return this.editTaskForm.get('name');
+  }
+
   close() {
     this.closeModal.emit(true);
   }

@@ -19,10 +19,21 @@ export class EditBoardFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.editBoardForm = new FormGroup({
-      name: new FormControl(this.board.name, [Validators.required]),
-      description: new FormControl(this.board.description, Validators.required),
+      name: new FormControl(this.board.name, [
+        Validators.required,
+        Validators.minLength(1),
+      ]),
+      description: new FormControl(this.board.description),
     });
   }
+
+  get name() {
+    return this.editBoardForm.get('name');
+  }
+  get description() {
+    return this.editBoardForm.get('description');
+  }
+
   close() {
     this.closeModal.emit(true);
   }
@@ -30,6 +41,7 @@ export class EditBoardFormComponent implements OnInit {
     this.store.dispatch(
       updateBoard({ id: this.board.id, board: this.editBoardForm.value })
     );
+    this.editBoardForm.reset();
     this.close();
   }
 }

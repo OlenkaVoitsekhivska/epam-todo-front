@@ -35,10 +35,17 @@ form {
   flex-direction: column;
   input {
     box-sizing: border-box;
+    border-radius:4px;
     margin-bottom: 15px;
     height: 28px;
     width: 100%;
+    &.ng-invalid.ng-touched{
+      border:3px solid red;
+    }
   }
+  .error-message{
+    color: red;
+}
 
   button {
     border: none;

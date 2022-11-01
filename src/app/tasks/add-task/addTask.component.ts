@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { AddTask } from 'src/app/store/actions/tasks.action';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { AddTask } from 'src/app/store/actions/tasks.action';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-addTask-form',

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { AuthService } from 'src/app/services/auth.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Login } from '../../store/actions/user.action';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-login-form',
@@ -10,7 +9,7 @@ import { Login } from '../../store/actions/user.action';
   styleUrls: ['./login-form.component.scss'],
 })
 export class LoginFormComponent implements OnInit {
-  constructor(private authService: AuthService, private store: Store) {}
+  constructor(private store: Store) {}
 
   loginForm!: FormGroup;
 
@@ -19,6 +18,14 @@ export class LoginFormComponent implements OnInit {
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, Validators.required),
     });
+  }
+
+  get email() {
+    return this.loginForm.get('email');
+  }
+
+  get password() {
+    return this.loginForm.get('password');
   }
 
   onSubmit() {

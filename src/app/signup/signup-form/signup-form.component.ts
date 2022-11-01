@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Store } from '@ngrx/store';
 import { Signup } from '../../store/actions/user.action';
+import { Store } from '@ngrx/store';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-signup-form',
@@ -9,11 +10,17 @@ import { Signup } from '../../store/actions/user.action';
   styleUrls: ['./signup-form.component.scss'],
 })
 export class SignupFormComponent implements OnInit {
-  constructor(private store: Store) {}
+  constructor(private store: Store, private toastr: ToastrService) {}
 
   ngOnInit(): void {}
 
   onSubmit(form: NgForm) {
+    if (form.value.password !== form.value.passwordRep) {
+      this.toastr.error('Passwords do not match', 'Error', {
+        timeOut: 3000,
+      });
+      return;
+    }
     const data = {
       username: form.value.username,
       email: form.value.email,

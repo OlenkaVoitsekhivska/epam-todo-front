@@ -13,8 +13,8 @@
       placeholder="Name"
       ngModel
       required
+      minlength="1"
     />
-
     <label for="image"></label>
     <input
       type="file"
@@ -25,6 +25,6 @@
       #imgInput
       (change)="uploadImage($event)"
     />
-    <button type="submit">Add Task</button>
+    <button type="submit" [disabled]="addTaskForm.invalid">Add Task</button>
   </form>
 </div>

@@ -1,4 +1,4 @@
-<div>
+<div class="wrapper">
   <button (click)="close()">X</button>
   <form [formGroup]="addCommentForm" (ngSubmit)="onSubmit(); close()">
     <label for="name"></label>
@@ -10,6 +10,14 @@
       ngModel
       required
     />
-    <button type="submit">Submit Comment</button>
+    <p
+      *ngIf="name?.invalid && (name?.touched || name?.dirty)"
+      class="error-message"
+    >
+      Comment should contain at least 1 character
+    </p>
+    <button type="submit" [disabled]="addCommentForm.invalid">
+      Submit Comment
+    </button>
   </form>
 </div>

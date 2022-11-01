@@ -14,15 +14,27 @@ export class AddBoardFormComponent implements OnInit {
   constructor(private store: Store, private activatedRoute: ActivatedRoute) {}
   addBoardForm!: FormGroup;
   currentUser: any;
+  showError: any;
   @Output() closeModal = new EventEmitter<boolean>();
 
   ngOnInit(): void {
     this.addBoardForm = new FormGroup({
-      name: new FormControl(null, [Validators.required]),
-      description: new FormControl(null, Validators.required),
+      name: new FormControl<string | null>(null, [
+        Validators.required,
+        Validators.minLength(1),
+      ]),
+      description: new FormControl<string | null>(null, Validators.required),
     });
     this.currentUser = this.activatedRoute.snapshot.paramMap.get('id');
   }
+
+  get name() {
+    return this.addBoardForm.get('name');
+  }
+  get description() {
+    return this.addBoardForm.get('description');
+  }
+
   close() {
     this.closeModal.emit(true);
   }
