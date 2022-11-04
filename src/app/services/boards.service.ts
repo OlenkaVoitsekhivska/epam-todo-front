@@ -25,7 +25,6 @@ export class BoardService {
   }
 
   getBoardById(id: string) {
-    console.log('log from service', id);
     const url = `${this.composeUrl(id)}/getTasks`;
     return this.http.get<Board>(url);
   }

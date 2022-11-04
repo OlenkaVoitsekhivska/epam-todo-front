@@ -13,7 +13,7 @@ export interface Task {
   userComments: any;
 }
 
-enum StatusE {
+export enum StatusE {
   TODO = 'Todo',
   IN_PROGRESS = 'In progress',
   DONE = 'Done',

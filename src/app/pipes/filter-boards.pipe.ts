@@ -27,7 +27,6 @@ export class FilterBoardsPipe implements PipeTransform {
       return copy.filter((board: any) => {
         if (filter) {
           if (filterThroughTasks(board.tasks, filterStr).length > 0) {
-            console.log('this is the board with tasks', board);
             return board;
           } else {
             return;

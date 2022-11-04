@@ -11,12 +11,12 @@ export const getBoardsSuccess = createAction(
   props<{ boards: Board[] }>()
 );
 
-export const AddBoard = createAction(
+export const addBoard = createAction(
   '[Board] Add board',
   props<{ board: Board; userId: string }>()
 );
 
-export const AddBoardSuccess = createAction(
+export const addBoardSuccess = createAction(
   '[Board] Add board success',
   props<{ board: Board }>()
 );

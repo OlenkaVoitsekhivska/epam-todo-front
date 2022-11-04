@@ -24,7 +24,6 @@ export class CommentsService {
 
   deleteComment(id: string) {
     const url = this.composeUrl(id);
-    console.log('this is log from service', id);
     return this.http.delete(url);
   }
 }

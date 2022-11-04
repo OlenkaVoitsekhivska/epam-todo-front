@@ -95,7 +95,6 @@ import { WildCardComponent } from './wild-card/wild-card.component';
         board: BoardReducer,
         boards: BoardsReducer,
         tasks: TasksReducer,
-        // comments: CommentsReducer,
       },
       {}
     ),

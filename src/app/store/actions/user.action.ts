@@ -10,17 +10,17 @@ export const SignupSuccess = createAction(
   props<{ user: User }>()
 );
 
-export const Login = createAction(
+export const login = createAction(
   '[Users] Login',
   props<{ user: Partial<Auth> }>()
 );
 
-export const LoginSuccess = createAction(
-  '[Users], Login success',
+export const loginSuccess = createAction(
+  '[Users], login success',
   props<{ user: loggedUser }>()
 );
 
-export const Logout = createAction('[Users] Logout');
-export const LogoutSuccess = createAction('[Users] Logout Success');
+export const logout = createAction('[Users] logout');
+export const logoutSuccess = createAction('[Users] logout Success');
 
-export const GetCurrentUser = createAction('[Users] Get current user');
+export const getCurrentUser = createAction('[Users] Get current user');

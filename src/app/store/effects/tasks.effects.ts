@@ -16,40 +16,40 @@ export class TaskEffects {
       switchMap(({ id }) => {
         return this.taskService
           .getTasks(id)
-          .pipe(map((tasks: Task[]) => TaskActions.GetTasksSuccess({ tasks })));
+          .pipe(map((tasks: Task[]) => TaskActions.getTasksSuccess({ tasks })));
       })
     )
   );
 
   addTask$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(TaskActions.AddTask),
+      ofType(TaskActions.addTask),
       concatMap(({ task, boardId }) =>
         this.taskService
           .addTask(task, boardId)
-          .pipe(map((task: Task) => TaskActions.AddTaskSuccess({ task })))
+          .pipe(map((task: Task) => TaskActions.addTaskSuccess({ task })))
       )
     )
   );
 
   deleteTask$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(TaskActions.DeleteTask),
+      ofType(TaskActions.deleteTask),
       concatMap(({ id }) =>
         this.taskService
           .deleteTask(id)
-          .pipe(map(() => TaskActions.DeleteTaskSuccess({ id })))
+          .pipe(map(() => TaskActions.deleteTaskSuccess({ id })))
       )
     )
   );
 
   updateTask$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(TaskActions.UpdateTask),
+      ofType(TaskActions.updateTask),
       mergeMap(({ task }) => {
         return this.taskService.updateTask(task).pipe(
           map((task) => {
-            return TaskActions.UpdateTaskSuccess({ task });
+            return TaskActions.updateTaskSuccess({ task });
           })
         );
       })
@@ -58,11 +58,11 @@ export class TaskEffects {
 
   deleteComment$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CommentsActions.DeleteComment),
+      ofType(CommentsActions.deleteComment),
       switchMap(({ id }) =>
         this.commentsService
           .deleteComment(id)
-          .pipe(map(() => CommentsActions.DeleteCommentSuccess({ id })))
+          .pipe(map(() => CommentsActions.deleteCommentSuccess({ id })))
       )
     )
   );

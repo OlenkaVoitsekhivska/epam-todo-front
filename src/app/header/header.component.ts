@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { currentUserSelector } from '../store/selectors/user.selectors';
-import { Logout } from '../store/actions/user.action';
+import { logout } from '../store/actions/user.action';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -17,6 +17,6 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {}
   logout() {
-    this.store.dispatch(Logout());
+    this.store.dispatch(logout());
   }
 }

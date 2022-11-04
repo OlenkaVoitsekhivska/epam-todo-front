@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Task } from 'src/app/models/task.model';
 
-import { UpdateTask } from 'src/app/store/actions/tasks.action';
+import { updateTask } from 'src/app/store/actions/tasks.action';
 
 @Component({
   selector: 'app-edit-task',
@@ -38,7 +38,7 @@ export class EditTaskComponent implements OnInit {
       ...this.task,
       ...this.editTaskForm.value,
     };
-    this.store.dispatch(UpdateTask({ task: data }));
+    this.store.dispatch(updateTask({ task: data }));
     this.closeModal.emit(true);
     this.close();
   }

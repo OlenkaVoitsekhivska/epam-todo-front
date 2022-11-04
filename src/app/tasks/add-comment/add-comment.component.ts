@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AddComment } from 'src/app/store/actions/comment.actions';
+import { addComment } from 'src/app/store/actions/comment.actions';
 import { Store } from '@ngrx/store';
 import { Task } from 'src/app/models/task.model';
 
@@ -34,7 +34,7 @@ export class AddCommentComponent implements OnInit {
 
   onSubmit() {
     this.store.dispatch(
-      AddComment({
+      addComment({
         taskId: this.task.id,
         comment: this.addCommentForm.value,
       })

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Login } from '../../store/actions/user.action';
+import { login } from '../../store/actions/user.action';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -29,7 +29,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.store.dispatch(Login({ user: this.loginForm.value }));
+    this.store.dispatch(login({ user: this.loginForm.value }));
     this.loginForm.reset();
   }
 }

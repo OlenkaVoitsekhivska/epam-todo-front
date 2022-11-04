@@ -24,7 +24,7 @@ export class UserEffects {
 
   logUser$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(UserActions.Login),
+      ofType(UserActions.login),
       switchMap(({ user }) =>
         this.authService.handleLogin(user).pipe(
           tap((res) => {
@@ -32,7 +32,7 @@ export class UserEffects {
             this.toastr.success('Welcome back');
             this.router.navigate([`/users/${res.id}/boards`]);
           }),
-          map((user) => UserActions.LoginSuccess({ user }))
+          map((user) => UserActions.loginSuccess({ user }))
         )
       )
     )
@@ -40,14 +40,14 @@ export class UserEffects {
 
   logOutUser$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(UserActions.Logout),
+      ofType(UserActions.logout),
       concatMap(() =>
         this.authService.handleLogout().pipe(
           tap(() => {
             localStorage.removeItem('user');
             this.router.navigate(['login']);
           }),
-          map(() => UserActions.LogoutSuccess())
+          map(() => UserActions.logoutSuccess())
         )
       )
     )

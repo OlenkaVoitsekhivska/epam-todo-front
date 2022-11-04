@@ -24,11 +24,11 @@ export class BoardEffects {
 
   addBoard$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(BoardActions.AddBoard),
+      ofType(BoardActions.addBoard),
       concatMap(({ board, userId }) =>
         this.boardService
           .addBoard(board, userId)
-          .pipe(map((board) => BoardActions.AddBoardSuccess({ board })))
+          .pipe(map((board) => BoardActions.addBoardSuccess({ board })))
       )
     )
   );

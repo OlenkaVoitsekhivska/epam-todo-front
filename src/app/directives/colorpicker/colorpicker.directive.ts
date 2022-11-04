@@ -12,7 +12,7 @@ import {
 export class ColorpickerDirective {
   @Input() bcg = '';
   @HostBinding('style.backgroundColor') color: string = 'transparent';
-  constructor(private el: ElementRef) {}
+  constructor() {}
 
   @HostListener('click') onclick() {
     this.color = this.bcg;

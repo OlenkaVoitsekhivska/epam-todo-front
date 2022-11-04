@@ -11,28 +11,15 @@ import { Injectable } from '@angular/core';
 export class CommentsEffects {
   addComment$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CommentsActions.AddComment),
+      ofType(CommentsActions.addComment),
       concatMap(({ taskId, comment }) =>
         this.commentsService.addComment(taskId, comment).pipe(
           tap((comment) => console.log('thsi is comment from effect', comment)),
           map((comment: any) => {
-            return CommentsActions.AddCommentSuccess({ comment });
+            return CommentsActions.addCommentSuccess({ comment });
           })
         )
       )
-    )
-  );
-
-  getComments$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(CommentsActions.GetComments),
-      concatMap(({ boardId }) => {
-        return this.commentsService
-          .getComments(boardId)
-          .pipe(
-            map((comments) => CommentsActions.GetCommentsSuccess({ comments }))
-          );
-      })
     )
   );
 

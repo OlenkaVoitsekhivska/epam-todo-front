@@ -4,9 +4,9 @@ import { Task } from '../models/task.model';
 import { Store } from '@ngrx/store';
 
 import {
-  DeleteTask,
   GetTasks,
-  UpdateTask,
+  deleteTask,
+  updateTask,
 } from '../store/actions/tasks.action';
 
 import { Observable, skipWhile, tap } from 'rxjs';
@@ -26,7 +26,7 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { DeleteComment } from '../store/actions/comment.actions';
+import { deleteComment } from '../store/actions/comment.actions';
 import { updateColor } from '../store/actions/board.action';
 import { Board } from '../models/board.model';
 import { selectBoard, selectUI } from '../store/selectors/boards.selectors';
@@ -106,7 +106,7 @@ export class TasksComponent implements OnInit {
     this.addModal = true;
   }
   deleteTask(id: string) {
-    this.store.dispatch(DeleteTask({ id }));
+    this.store.dispatch(deleteTask({ id }));
   }
 
   setSort(order: string, select: string) {
@@ -141,7 +141,7 @@ export class TasksComponent implements OnInit {
     }
   }
   deleteComment(commentId: string) {
-    this.store.dispatch(DeleteComment({ id: commentId }));
+    this.store.dispatch(deleteComment({ id: commentId }));
   }
 
   onClose() {
@@ -187,7 +187,7 @@ export class TasksComponent implements OnInit {
         event.item.data;
 
       this.store.dispatch(
-        UpdateTask({
+        updateTask({
           task: {
             id,
             name,

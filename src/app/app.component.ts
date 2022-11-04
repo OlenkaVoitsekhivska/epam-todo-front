@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { GetCurrentUser } from './store/actions/user.action';
+import { getCurrentUser } from './store/actions/user.action';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,7 @@ export class AppComponent implements OnInit {
   title = 'epam-angular-proj-front';
 
   ngOnInit() {
-    this.store.dispatch(GetCurrentUser());
+    this.store.dispatch(getCurrentUser());
   }
 
   constructor(private store: Store) {}

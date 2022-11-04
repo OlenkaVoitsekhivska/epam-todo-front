@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { AddBoard } from '../../store/actions/boards.action';
+import { addBoard } from '../../store/actions/boards.action';
 import { ActivatedRoute } from '@angular/router';
 import { EventEmitter, Output } from '@angular/core';
 
@@ -40,7 +40,7 @@ export class AddBoardFormComponent implements OnInit {
   }
   onSubmit() {
     this.store.dispatch(
-      AddBoard({ board: this.addBoardForm.value, userId: this.currentUser })
+      addBoard({ board: this.addBoardForm.value, userId: this.currentUser })
     );
     this.addBoardForm.reset();
     this.close();

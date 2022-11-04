@@ -3,13 +3,11 @@ import * as BoardActions from '../actions/boards.action';
 
 import { Board } from '../../models/board.model';
 
-export const initialState: string | null = null;
-
-export const initialBoardsState: Partial<Board>[] = [];
+export const initialState: Partial<Board>[] = [];
 
 export const BoardsReducer = createReducer(
-  initialBoardsState,
-  on(BoardActions.AddBoardSuccess, (state, { board }) => [...state, board]),
+  initialState,
+  on(BoardActions.addBoardSuccess, (state, { board }) => [...state, board]),
   on(BoardActions.getBoards, (state, { id }) =>
     state.filter((board) => board.userId === id)
   ),

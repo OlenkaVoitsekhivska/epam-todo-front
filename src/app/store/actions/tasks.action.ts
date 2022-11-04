@@ -6,47 +6,37 @@ export const GetTasks = createAction(
   props<{ id: string }>()
 );
 
-export const GetTasksSuccess = createAction(
+export const getTasksSuccess = createAction(
   '[Task] Get tasks success',
   props<{ tasks: Task[] }>()
 );
 
-export const AddTask = createAction(
+export const addTask = createAction(
   '[Task] Add task',
   props<{ task: any; boardId: string }>()
 );
 
-export const AddTaskSuccess = createAction(
+export const addTaskSuccess = createAction(
   '[Task] Add task success',
   props<{ task: Task }>()
 );
 
-export const DeleteTask = createAction(
+export const deleteTask = createAction(
   '[Task] Delete task',
   props<{ id: string }>()
 );
 
-export const DeleteTaskSuccess = createAction(
+export const deleteTaskSuccess = createAction(
   '[Task] Delete task success',
   props<{ id: string }>()
 );
 
-export const UpdateTask = createAction(
+export const updateTask = createAction(
   '[Task] Update task',
   props<{ task: any }>()
 );
 
-export const UpdateTaskSuccess = createAction(
+export const updateTaskSuccess = createAction(
   '[Task] Update task success',
   props<{ task: any }>()
-);
-
-export const updateColor = createAction(
-  '[Task] Update color',
-  props<{ id: string; task: Partial<Task> }>()
-);
-
-export const updateColorSuccess = createAction(
-  '[Task] Update color success',
-  props<{ id: string; task: Partial<Task> }>()
 );

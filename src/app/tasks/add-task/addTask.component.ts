@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AddTask } from 'src/app/store/actions/tasks.action';
+import { addTask } from 'src/app/store/actions/tasks.action';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
@@ -27,7 +27,7 @@ export class AddTaskFormComponent implements OnInit {
     formWithImg.set('status', this.status);
     formWithImg.set('boardId', boardId);
 
-    this.store.dispatch(AddTask({ task: formWithImg, boardId }));
+    this.store.dispatch(addTask({ task: formWithImg, boardId }));
     this.close();
   }
 
