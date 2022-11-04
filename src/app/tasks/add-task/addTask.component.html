@@ -1,0 +1,30 @@
+<div>
+  <button (click)="close()">X</button>
+  <form
+    (ngSubmit)="onSubmit(addTaskForm)"
+    #addTaskForm="ngForm"
+    enctype="multipart/form-data"
+  >
+    <label for="name"></label>
+    <input
+      type="text"
+      id="name"
+      name="name"
+      placeholder="Name"
+      ngModel
+      required
+      minlength="1"
+    />
+    <label for="image"></label>
+    <input
+      type="file"
+      id="image"
+      name="image"
+      placeholder="Image"
+      ngModel
+      #imgInput
+      (change)="uploadImage($event)"
+    />
+    <button type="submit" [disabled]="addTaskForm.invalid">Add Task</button>
+  </form>
+</div>

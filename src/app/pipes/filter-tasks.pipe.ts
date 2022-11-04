@@ -1,12 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { TaskI } from '../models/task.model';
+import { Task } from '../models/task.model';
 
 @Pipe({
   name: 'filterTasks',
 })
 export class FilterTasksPipe implements PipeTransform {
-  // transform(tasks: TaskI[], filter: string): TaskI[] {
-  transform(tasks: any[], filter: string): TaskI[] {
+  transform(tasks: any[], filter: string): Task[] {
     const copy = [...tasks];
     if (filter.split(' ').length === 1 || filter === '') {
       return tasks;

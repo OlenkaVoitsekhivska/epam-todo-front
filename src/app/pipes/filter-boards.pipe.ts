@@ -1,13 +1,16 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { BoardI } from '../models/board.model';
+
+function filterThroughTasks(arry: any, string: string) {
+  return arry.filter((obj: any) =>
+    obj.name.toLowerCase().includes(string.toLowerCase())
+  );
+}
 
 @Pipe({
   name: 'filterBoards',
 })
 export class FilterBoardsPipe implements PipeTransform {
-  // transform(boards: BoardI[], filter: string): BoardI[] {
   transform(boards: any[], filter: string): any {
-    console.log('this is filter', filter);
     const copy = [...boards];
     if (filter.split(' ').length === 1 || filter === '') {
       return boards;
@@ -21,11 +24,15 @@ export class FilterBoardsPipe implements PipeTransform {
       );
     }
     if (param === 'task') {
-      return copy.filter((task) =>
-        filter
-          ? task.name.toLowerCase().includes(filterStr.toLowerCase())
-          : task
-      );
+      return copy.filter((board: any) => {
+        if (filter) {
+          if (filterThroughTasks(board.tasks, filterStr).length > 0) {
+            return board;
+          } else {
+            return;
+          }
+        }
+      });
     }
   }
 }

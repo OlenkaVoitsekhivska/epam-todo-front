@@ -1,0 +1,5 @@
+<h2>Page not found</h2>
+<ng-container *ngIf="currentUser$ | async as user">
+  <p>To return to main content hit</p>
+  <a routerLink="/users/{{ user.id }}/boards">me</a>
+</ng-container>

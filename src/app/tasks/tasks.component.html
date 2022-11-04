@@ -1,99 +1,290 @@
-<!-- <div *ngFor="let task of tasks$ | async">
-  <h3>{{ task.name }}</h3>
-  <p>{{ task.status }}</p>
-</div> -->
-<h2>Tasks</h2>
+<div class="container">
 
-<select name="" id="" #filterParam>
-  <option value="">Filter By</option>
-  <option value="task">Task name</option>
-</select>
-<label for="filterTasks">Filter</label>
-<input
-  id="filterTasks"
-  type="text"
-  name="filter"
-  [(ngModel)]="filter"
-  (input)="setFilter(filterParam.value)"
-/>
 
-<select name="" id="" #select>
-  <option value="">Sort By</option>
-  <option value="name">name</option>
-  <option value="date">date</option>
-</select>
+  <div class="filter-sort">
+    <div class="filter">
+      <select name="" id="" #filterParam>
+        <option value="">Filter By</option>
+        <option value="task">Task name</option>
+      </select>
+      <label for="filterTasks">Filter</label>
+      <input
+        id="filterTasks"
+        type="text"
+        name="filter"
+        [(ngModel)]="filter"
+        (input)="setFilter(filterParam.value)"
+      />
+    </div>
 
-<button (click)="setSort(asc.innerText, select.value)" #asc>ASC</button>
-<button (click)="setSort(desc.innerText, select.value)" #desc>DESC</button>
+    <div class="sort">
+      <select name="" id="" #select>
+        <option value="">Sort By</option>
+        <option value="name">name</option>
+        <option value="date">date</option>
+      </select>
 
-<div *ngIf="tasks$ | async as todos" class="todo__columns">
-  <div class="column">
-    <h2>Todo</h2>
-    <button (click)="openAddTaskModal('Todo')">+</button>
-    <div
-      *ngFor="
-        let todo of todos
-          | status: 'Todo'
-          | filterTasks: compositeFilter
-          | sort: sortOrder
-      "
-      class="task"
-    >
-      <h3>{{ todo.name }}</h3>
-      <p>{{ todo.createdAt | date }}</p>
-      <button (click)="deleteTask(todo.id)" type="button">Delete</button>
-      <button (click)="onEdit(todo)">Edit</button>
+      <button (click)="setSort(asc.innerText, select.value)" #asc>
+        ASC<fa-icon [icon]="icons.asc"></fa-icon>
+      </button>
+      <button (click)="setSort(desc.innerText, select.value)" #desc>
+        DESC<fa-icon [icon]="icons.desc"></fa-icon>
+      </button>
     </div>
   </div>
 
-  <div class="column">
-    <h2>In Progress</h2>
-    <button (click)="openAddTaskModal('In progress')">+</button>
+  <div *ngIf="tasks$ | async as todos" class="todo__columns">
     <div
-      *ngFor="
-        let progress of todos
-          | status: 'In progress'
-          | filterTasks: compositeFilter
-          | sort: sortOrder
-      "
-      class="task"
+      class="column"
+      appColorpicker
+      [bcg]="columnBcg.col1"
+      [style.background-color]="columnBcg.col1"
+      cdkDropList
+      #todoList="cdkDropList"
+      id="Todo"
+      [cdkDropListData]="todos | status: 'Todo'"
+      [cdkDropListConnectedTo]="[progressList, doneList]"
+      (cdkDropListDropped)="drop($event)"
     >
-      <h3>{{ progress.name }}</h3>
-      <p>{{ progress.createdAt | date }}</p>
-      <button (click)="deleteTask(progress.id)" type="button">Delete</button>
-      <button (click)="onEdit(progress)">Edit</button>
-    </div>
-  </div>
+      <div class="column-header">
+        <h2>Todo</h2>
+        <div class="colorpicker-wrapper">
+          <button
+            type="button"
+            (click)="toggleColorpicker('col1')"
+            class="colorpicker"
+          >
+            <fa-icon [icon]="icons.paint"></fa-icon>
+          </button>
+          <ng-container *ngIf="showColorpicker['col1']">
+            <input
+              type="color"
+              (input)="handleColorSwitch(currentBoard, 'col1', $event)"
+            />
+          </ng-container>
+        </div>
+      </div>
+      <button (click)="openAddTaskModal('Todo')" class="todo-add">
+        <fa-icon [icon]="icons.add"></fa-icon>
+      </button>
+      <div
+        *ngFor="
+          let todo of todos
+            | filterTasks: compositeFilter
+            | sort: sortOrder
+            | status: 'Todo' as tod
+        "
+        class="task"
+      >
+        <div cdkDrag [cdkDragData]="todo">
+          <h3>{{ todo.name }}</h3>
+          <p>{{ todo.createdAt | date }}</p>
+          <ng-container *ngIf="todo.image">
+            <img [src]="todo.image" alt="" />
+          </ng-container>
 
-  <div class="column">
-    <h2>Done</h2>
-    <button (click)="openAddTaskModal('Done')">+</button>
+          <div class="btn-actions">
+            <button (click)="deleteTask(todo.id)" type="button">
+              <fa-icon [icon]="icons.delete"></fa-icon>
+            </button>
+
+            <button (click)="onEdit(todo)">
+              <fa-icon [icon]="icons.edit"></fa-icon>
+            </button>
+            <button (click)="addComment(todo)">add comment</button>
+            <button (click)="toggleShowComments(todo)">
+              comments: {{ todo.userComments.length }}
+            </button>
+          </div>
+          <ng-container *ngIf="showComments.show">
+            <ng-container *ngIf="conditionShowComments(todo) as comments">
+              <div *ngFor="let comment of comments" class="comment-actions">
+                <h3>{{ comment.name }}</h3>
+                <button (click)="deleteComment(comment.id)">
+                  <fa-icon [icon]="icons.delete"></fa-icon>
+                </button>
+              </div>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
     <div
-      *ngFor="
-        let done of todos
-          | status: 'Done'
-          | filterTasks: compositeFilter
-          | sort: sortOrder
-      "
-      class="task"
+      class="column"
+      appColorpicker
+      [bcg]="columnBcg.col2"
+      [style.background-color]="columnBcg.col2"
+      cdkDropList
+      #progressList="cdkDropList"
+      id="In progress"
+      [cdkDropListData]="todos | status: 'In progress'"
+      [cdkDropListConnectedTo]="[todoList, doneList]"
+      (cdkDropListDropped)="drop($event)"
     >
-      <h3>{{ done.name }}</h3>
-      <p>{{ done.createdAt | date }}</p>
-      <button (click)="deleteTask(done.id)" type="button">Delete</button>
-      <button (click)="onEdit(done)">Edit</button>
+      <div class="column-header">
+        <h2>In Progress</h2>
+        <div class="colorpicker-wrapper">
+          <button
+            type="button"
+            (click)="toggleColorpicker('col2')"
+            class="colorpicker"
+          >
+            <!-- {{ showColorpicker["col2"] ? "Hide colorpicker" : "Show colorpicker" }} -->
+            <fa-icon [icon]="icons.paint"></fa-icon>
+          </button>
+
+          <ng-container *ngIf="showColorpicker['col2']">
+            <input
+              type="color"
+              (input)="handleColorSwitch(currentBoard, 'col2', $event)"
+            />
+          </ng-container>
+        </div>
+      </div>
+
+      <button (click)="openAddTaskModal('In progress')" class="todo-add">
+        <fa-icon [icon]="icons.add"></fa-icon>
+      </button>
+      <div
+        *ngFor="
+          let progress of todos
+            | filterTasks: compositeFilter
+            | sort: sortOrder
+            | status: 'In progress'
+        "
+        class="task"
+      >
+        <div cdkDrag [cdkDragData]="progress">
+          <h3>{{ progress.name }}</h3>
+          <p>{{ progress.createdAt | date }}</p>
+          <ng-container *ngIf="progress.image">
+            <ng-container *ngIf="progress.image">
+              <img [src]="progress.image" alt="" />
+            </ng-container>
+          </ng-container>
+
+          <div class="btn-actions">
+            <button (click)="deleteTask(progress.id)" type="button">
+              <fa-icon [icon]="icons.delete"></fa-icon>
+            </button>
+            <button (click)="onEdit(progress)">
+              <fa-icon [icon]="icons.edit"></fa-icon>
+            </button>
+            <button (click)="addComment(progress)">add comment</button>
+            <button (click)="toggleShowComments(progress)">
+              comments: {{ progress.userComments.length }}
+            </button>
+          </div>
+          <ng-container *ngIf="showComments.show">
+            <ng-container *ngIf="conditionShowComments(progress) as comments">
+              <div *ngFor="let comment of comments" class="comment-actions">
+                <h3>{{ comment.name }}</h3>
+                <button (click)="deleteComment(comment.id)">
+                  <fa-icon [icon]="icons.delete"></fa-icon>
+                </button>
+              </div>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
     </div>
+
+    <div
+      class="column"
+      appColorpicker
+      [bcg]="columnBcg.col3"
+      [style.background-color]="columnBcg.col3"
+      cdkDropList
+      #doneList="cdkDropList"
+      [cdkDropListData]="todos | status: 'Done'"
+      id="Done"
+      [cdkDropListConnectedTo]="[progressList, todoList]"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <div class="column-header">
+        <h2>Done</h2>
+        <div class="colorpicker-wrapper">
+          <button
+            type="button"
+            (click)="toggleColorpicker('col3')"
+            class="colorpicker"
+          >
+            <!-- {{ showColorpicker["col3"] ? "Hide colorpicker" : "Show colorpicker" }} -->
+            <fa-icon [icon]="icons.paint"></fa-icon>
+          </button>
+
+          <ng-container *ngIf="showColorpicker['col3']">
+            <input
+              type="color"
+              (input)="handleColorSwitch(currentBoard, 'col3', $event)"
+            />
+          </ng-container>
+        </div>
+      </div>
+      <button (click)="openAddTaskModal('Done')" class="todo-add">
+        <fa-icon [icon]="icons.add"></fa-icon>
+      </button>
+      <div
+        *ngFor="
+          let done of todos
+            | filterTasks: compositeFilter
+            | sort: sortOrder
+            | status: 'Done'
+        "
+        class="task"
+      >
+        <div cdkDrag [cdkDragData]="done">
+          <h3>{{ done.name }}</h3>
+          <p>{{ done.createdAt | date }}</p>
+          <ng-container *ngIf="done.image">
+            <img [src]="done.image" alt="" />
+          </ng-container>
+          <div class="btn-actions">
+            <button (click)="deleteTask(done.id)" type="button">
+              <fa-icon [icon]="icons.delete"></fa-icon>
+            </button>
+            <button (click)="onEdit(done)">
+              <fa-icon [icon]="icons.edit"></fa-icon>
+            </button>
+            <button (click)="addComment(done)">add comment</button>
+            <button (click)="toggleShowComments(done)">
+              comments: {{ done.userComments.length }}
+            </button>
+          </div>
+          <ng-container *ngIf="showComments.show">
+            <ng-container *ngIf="conditionShowComments(done) as comments">
+              <div *ngFor="let comment of comments" class="comment-actions">
+                <h3>{{ comment.name }}</h3>
+                <button (click)="deleteComment(comment.id)">
+                  <fa-icon [icon]="icons.delete"></fa-icon>
+                </button>
+              </div>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <app-modal *ngIf="editModal" class="modal">
+      <app-edit-task
+        [task]="activeTask"
+        (closeModal)="onClose()"
+      ></app-edit-task>
+    </app-modal>
+
+    <app-modal *ngIf="addModal" class="modal">
+      <app-addTask-form
+        [status]="statusOutput"
+        (closeModal)="onClose()"
+      ></app-addTask-form>
+    </app-modal>
+
+    <app-modal *ngIf="addCommentModal" class="modal">
+      <app-add-comment
+        [task]="activeTask"
+        (closeModal)="onClose()"
+      ></app-add-comment>
+    </app-modal>
   </div>
-  <!-- <div *ngFor="let done of todos" class="task">
-      <h3>{{ done.name }}</h3>
-      <p>{{ done.status }}</p>
-    </div>
-  </div> -->
-
-  <app-modal *ngIf="editModal | async" class="addBoardModal">
-    <app-edit-task [task]="activeTask"></app-edit-task>
-  </app-modal>
-
-  <app-modal *ngIf="addTaskModal | async" class="addTaskModal">
-    <app-addTask-form [status]="statusOutput"></app-addTask-form>
-  </app-modal>
 </div>

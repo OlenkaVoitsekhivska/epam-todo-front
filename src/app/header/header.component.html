@@ -1,19 +1,17 @@
-<h1>HEADER</h1>
-
+<h1>Task Tingz</h1>
 <nav *ngIf="currentUser$ | async as user">
   <ng-container *ngIf="user.email; else or">
-    <span>{{ user.email }}</span>
-    <a mat-button routerLink="/home" routerLinkActive>Home</a>
-    <a mat-button routerLink="/boards" routerLinkActive="mat-primary">Boards</a>
+    <a routerLink="users/{{ user.id }}/boards" routerLinkActive="active"
+      >Boards</a
+    >
+    <span> <fa-icon [icon]="userIcon"></fa-icon>{{ user.email }}</span>
     <button type="button" (click)="logout()">Logout</button>
   </ng-container>
 </nav>
 
 <ng-template #or>
   <nav>
-    <a mat-button routerLink="/home" routerLinkActive>Home</a>
-    <a mat-button routerLink="/boards" routerLinkActive="mat-primary">Boards</a>
-    <a routerLink="/signup" routerLinkActive="mat-primary">Signup</a>
-    <a routerLink="/login" routerLinkActive="mat-primary">Login</a>
+    <a routerLink="/signup" routerLinkActive="active">Signup</a>
+    <a routerLink="/login" routerLinkActive="active">Login</a>
   </nav>
 </ng-template>

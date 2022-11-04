@@ -1,0 +1,30 @@
+<div class="wrapper">
+  <button (click)="close()">X</button>
+  <form [formGroup]="editBoardForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="name"></label>
+      <input type="text" id="name" formControlName="name" placeholder="Name" />
+      <p
+        *ngIf="name?.invalid && (name?.touched || name?.dirty)"
+        class="error-message"
+      >
+        Task name should contain at least 1 character
+      </p>
+    </div>
+    <div
+      [class.mat-form-field-invalid]="
+        editBoardForm.get('name')?.invalid &&
+        editBoardForm.get('description')?.dirty
+      "
+    >
+      <label for="description"></label>
+      <input
+        type="text"
+        id="description"
+        formControlName="description"
+        placeholder="Description"
+      />
+    </div>
+    <button type="submit" [disabled]="editBoardForm.invalid">Edit Board</button>
+  </form>
+</div>

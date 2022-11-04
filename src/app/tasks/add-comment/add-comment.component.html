@@ -1,0 +1,23 @@
+<div class="wrapper">
+  <button (click)="close()">X</button>
+  <form [formGroup]="addCommentForm" (ngSubmit)="onSubmit(); close()">
+    <label for="name"></label>
+    <input
+      type="text"
+      id="name"
+      formControlName="name"
+      placeholder="Name"
+      ngModel
+      required
+    />
+    <p
+      *ngIf="name?.invalid && (name?.touched || name?.dirty)"
+      class="error-message"
+    >
+      Comment should contain at least 1 character
+    </p>
+    <button type="submit" [disabled]="addCommentForm.invalid">
+      Submit Comment
+    </button>
+  </form>
+</div>
