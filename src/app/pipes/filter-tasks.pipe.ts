@@ -11,13 +11,11 @@ export class FilterTasksPipe implements PipeTransform {
       return tasks;
     } else {
       const [param, filterStr] = filter.split(' ');
-      // if (param === 'task') {
       return copy.filter((task) =>
         filter
           ? task.name.toLowerCase().includes(filterStr.toLowerCase())
           : task
       );
-      // }
     }
   }
 }

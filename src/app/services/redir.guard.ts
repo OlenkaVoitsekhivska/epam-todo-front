@@ -6,14 +6,20 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { currentUserSelector } from '../store/selectors/user.selectors';
 import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RedirGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private store: Store
+  ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,

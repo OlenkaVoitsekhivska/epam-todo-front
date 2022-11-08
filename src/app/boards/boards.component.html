@@ -1,7 +1,7 @@
 <div class="container">
   <div class="filter-sort">
     <div class="filter">
-      <select name="" id="" #filterParam>
+      <select name="filter-board" id="filter-board" #filterParam>
         <option value="">Filter By</option>
         <option value="board">Board name</option>
         <option value="task">Task name</option>
@@ -16,18 +16,26 @@
       />
     </div>
     <div class="sort">
-      <select name="" id="" #select>
+      <select name="sort-board" id="sort-board" #select>
         <option value="">Sort By</option>
         <option value="name">name</option>
         <option value="date">date</option>
         <option value="tasks">number of tasks</option>
       </select>
 
-      <button (click)="setSort(asc.innerText, select.value)" #asc>
-        ASC<fa-icon [icon]="icons.asc"></fa-icon>
+      <button
+        (click)="setSort(asc.innerText, select.value)"
+        #asc
+        class="btn-main"
+      >
+        ASC<fa-icon [icon]="icons.asc" class="icon-sort"></fa-icon>
       </button>
-      <button (click)="setSort(desc.innerText, select.value)" #desc>
-        DESC<fa-icon [icon]="icons.desc"></fa-icon>
+      <button
+        (click)="setSort(desc.innerText, select.value)"
+        #desc
+        class="btn-main"
+      >
+        DESC<fa-icon [icon]="icons.desc" class="icon-sort"></fa-icon>
       </button>
     </div>
   </div>
@@ -37,7 +45,7 @@
   </button>
 
   <app-modal *ngIf="modal.addModal" class="addBoardModal">
-    <app-addBoard-form (closeModal)="onClose()"></app-addBoard-form>
+    <app-add-board-form (closeModal)="onClose()"></app-add-board-form>
   </app-modal>
 
   <div *ngIf="boards$ | async as boards" class="board-container">
@@ -51,19 +59,33 @@
       <div class="board">
         <h3>{{ board.name }}</h3>
         <p class="createdDate">{{ board.createdAt | date }}</p>
-        <ul>
-          <li>
-            <p>Todo:{{ taskPerColumn(board.tasks, 'Todo') }}</p>
-          </li>
-          <li>
-            <p>In progress:{{ taskPerColumn(board.tasks, 'In progress') }}</p>
-          </li>
-          <li>
-            <p>Done:{{ taskPerColumn(board.tasks, 'Done') }}</p>
-          </li>
-        </ul>
         <div class="board-actions">
-          <button routerLink="/boards/{{ board.id }}/tasks">Details</button>
+          <div class="dropdown">
+            <p>Details</p>
+            <ul class="dropdown-content">
+              <li>
+                <p>
+                  Todo:
+                  <span>{{ taskPerColumn(board.tasks, status.todo) }}</span>
+                </p>
+              </li>
+              <li>
+                <p>
+                  In progress:
+                  <span>{{
+                    taskPerColumn(board.tasks, status.in_progress)
+                  }}</span>
+                </p>
+              </li>
+              <li>
+                <p>
+                  Done:
+                  <span>{{ taskPerColumn(board.tasks, status.done) }}</span>
+                </p>
+              </li>
+            </ul>
+          </div>
+          <button routerLink="/boards/{{ board.id }}/tasks">See tasks</button>
           <button (click)="onDelete(board)">
             <fa-icon [icon]="icons.delete"></fa-icon>
           </button>
@@ -73,10 +95,10 @@
         </div>
       </div>
       <app-modal *ngIf="modal.editModal" class="addBoardModal">
-        <app-editBoard-form
+        <app-edit-board-form
           [board]="activeBoard"
           (closeModal)="onClose()"
-        ></app-editBoard-form>
+        ></app-edit-board-form>
       </app-modal>
     </div>
   </div>

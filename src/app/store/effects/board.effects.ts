@@ -25,10 +25,10 @@ export class SingleBoardEffects {
   updateColor$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BoardActions.updateColor),
-      concatMap(({ id, board }) =>
+      concatMap(({ id, color }) =>
         this.boardService
-          .updateColor(id, board)
-          .pipe(map(() => BoardActions.updateColorSuccess({ id, board })))
+          .updateColor(id, color)
+          .pipe(map(() => BoardActions.updateColorSuccess({ id, color })))
       )
     )
   );

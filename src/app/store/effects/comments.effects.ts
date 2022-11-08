@@ -14,7 +14,6 @@ export class CommentsEffects {
       ofType(CommentsActions.addComment),
       concatMap(({ taskId, comment }) =>
         this.commentsService.addComment(taskId, comment).pipe(
-          tap((comment) => console.log('thsi is comment from effect', comment)),
           map((comment: any) => {
             return CommentsActions.addCommentSuccess({ comment });
           })

@@ -6,15 +6,13 @@ import { ActivatedRoute } from '@angular/router';
 import { EventEmitter, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-addBoard-form',
+  selector: 'app-add-board-form',
   templateUrl: './addBoard.component.html',
-  // styleUrls: ['./addBoard.component.scss'],
 })
 export class AddBoardFormComponent implements OnInit {
   constructor(private store: Store, private activatedRoute: ActivatedRoute) {}
   addBoardForm!: FormGroup;
-  currentUser: any;
-  showError: any;
+  currentUser!: string | null;
   @Output() closeModal = new EventEmitter<boolean>();
 
   ngOnInit(): void {
@@ -39,6 +37,9 @@ export class AddBoardFormComponent implements OnInit {
     this.closeModal.emit(true);
   }
   onSubmit() {
+    if (this.currentUser === null) {
+      return;
+    }
     this.store.dispatch(
       addBoard({ board: this.addBoardForm.value, userId: this.currentUser })
     );

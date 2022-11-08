@@ -1,6 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Task } from 'src/app/models/task.model';
 
@@ -10,9 +16,10 @@ import { updateTask } from 'src/app/store/actions/tasks.action';
   selector: 'app-edit-task',
   templateUrl: './edit-task.component.html',
   styleUrls: ['./edit-task.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditTaskComponent implements OnInit {
-  constructor(private store: Store, private activatedRoute: ActivatedRoute) {}
+  constructor(private store: Store) {}
   editTaskForm!: FormGroup;
 
   @Input() task!: Task;

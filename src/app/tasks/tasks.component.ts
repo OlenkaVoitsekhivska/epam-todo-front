@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Task } from '../models/task.model';
+import { StatusE, Task } from '../models/task.model';
 
 import { Store } from '@ngrx/store';
 
@@ -9,7 +9,7 @@ import {
   updateTask,
 } from '../store/actions/tasks.action';
 
-import { Observable, skipWhile, tap } from 'rxjs';
+import { Observable, map, skipWhile } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { selectAllTasks } from '../store/selectors/tasks.selectors';
 
@@ -31,15 +31,20 @@ import { updateColor } from '../store/actions/board.action';
 import { Board } from '../models/board.model';
 import { selectBoard, selectUI } from '../store/selectors/boards.selectors';
 import { getBoardById } from '../store/actions/board.action';
+import { Comment } from '../models/comment';
 
 @Component({
-  selector: 'tasks-app',
+  selector: 'app-tasks',
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TasksComponent implements OnInit {
-  uiPreferences$: any = this.store.select(selectUI);
+  uiPreferences$: Observable<any> = this.store.select(selectUI).pipe(
+    skipWhile((res) => !res),
+    map(({ col1, col2, col3 }) => ({ col1, col2, col3 }))
+  );
+
   tasks$: Observable<Task[]> = this.store.select(selectAllTasks);
   board$: Observable<Partial<Board>> = this.store.select(selectBoard);
   addModal: boolean = false;
@@ -52,16 +57,17 @@ export class TasksComponent implements OnInit {
   };
 
   currentBoard!: any;
+
   statusOutput!: string;
   sortOrder: string = '';
   filter: string = '';
   compositeFilter: string = '';
   activeTask!: Task;
 
-  columnBcg = {
-    col1: '#c4c2c2',
-    col2: '#c4c2c2',
-    col3: '#c4c2c2',
+  status = {
+    todo: StatusE.TODO,
+    in_progress: StatusE.IN_PROGRESS,
+    done: StatusE.DONE,
   };
 
   showColorpicker = {
@@ -83,25 +89,10 @@ export class TasksComponent implements OnInit {
     this.currentBoard = this.activatedRoute.snapshot.paramMap.get('id');
     this.store.dispatch(getBoardById({ id: this.currentBoard }));
     this.store.dispatch(GetTasks({ id: this.currentBoard }));
-
-    this.uiPreferences$
-      .pipe(
-        skipWhile((res) => !res),
-        tap((res: any) => {
-          this.columnBcg = {
-            col1: res.col1,
-            col2: res.col2,
-            col3: res.col3,
-          };
-        })
-      )
-      .subscribe();
-
-    // this.store.dispatch(GetComments({ boardId: this.currentBoard }));
   }
   constructor(private store: Store, private activatedRoute: ActivatedRoute) {}
 
-  openAddTaskModal(value: string) {
+  openAddTaskModal(value: StatusE) {
     this.statusOutput = value;
     this.addModal = true;
   }
@@ -119,11 +110,11 @@ export class TasksComponent implements OnInit {
     this.compositeFilter = `${param} ${this.filter}`;
   }
 
-  onEdit(task: any) {
+  onEdit(task: Task) {
     this.activeTask = task;
     this.editModal = true;
   }
-  addComment(todo: any) {
+  addComment(todo: Task) {
     this.activeTask = todo;
     this.addCommentModal = true;
   }
@@ -132,14 +123,14 @@ export class TasksComponent implements OnInit {
     this.showComments.taskId = todo.id;
     this.showComments.show = !this.showComments.show;
   }
-  conditionShowComments(todo: Task) {
-    if (!todo.userComments.length) {
-      return;
-    }
+  conditionShowComments(todo: Task): Comment[] | undefined {
     if (todo.userComments.length && todo.id === this.showComments.taskId) {
       return todo.userComments;
+    } else {
+      return;
     }
   }
+
   deleteComment(commentId: string) {
     this.store.dispatch(deleteComment({ id: commentId }));
   }
@@ -150,16 +141,13 @@ export class TasksComponent implements OnInit {
     this.addCommentModal = false;
   }
 
-  checkIsImg(string: any) {
-    if (typeof string === 'undefined') {
-      return false;
-    }
+  checkIsImg(string: string): boolean {
     return string.length > 0;
   }
 
   handleColorSwitch(boardId: string, column: string, event: any) {
     const data = { [column]: event.target.value };
-    this.store.dispatch(updateColor({ id: boardId, board: data }));
+    this.store.dispatch(updateColor({ id: boardId, color: data }));
   }
 
   toggleColorpicker(column: string) {
@@ -168,8 +156,7 @@ export class TasksComponent implements OnInit {
     ];
   }
 
-  drop(event: CdkDragDrop<any>) {
-    console.log('this is event item', event.item.data.id);
+  drop(event: CdkDragDrop<Task[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -195,7 +182,7 @@ export class TasksComponent implements OnInit {
             image,
             createdAt,
             userComments,
-            status: event.container.id,
+            status: event.container.id as StatusE,
           },
         })
       );

@@ -13,7 +13,7 @@ export const getTasksSuccess = createAction(
 
 export const addTask = createAction(
   '[Task] Add task',
-  props<{ task: any; boardId: string }>()
+  props<{ task: FormData; boardId: string }>()
 );
 
 export const addTaskSuccess = createAction(
@@ -33,10 +33,12 @@ export const deleteTaskSuccess = createAction(
 
 export const updateTask = createAction(
   '[Task] Update task',
-  props<{ task: any }>()
+  props<{ task: Task }>()
 );
 
 export const updateTaskSuccess = createAction(
   '[Task] Update task success',
   props<{ task: any }>()
 );
+
+export const clearState = createAction('[Task] clear state');

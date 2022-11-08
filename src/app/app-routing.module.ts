@@ -25,10 +25,12 @@ const routes: Routes = [
   {
     path: 'users/:id/boards',
     component: BoardsComponent,
+    canActivate: [RedirGuard],
   },
   {
     path: 'boards/:id/tasks',
     component: TasksComponent,
+    canActivate: [RedirGuard],
   },
   {
     path: '**',

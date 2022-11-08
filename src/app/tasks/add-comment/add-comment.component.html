@@ -1,5 +1,5 @@
 <div class="wrapper">
-  <button (click)="close()">X</button>
+  <button (click)="close()" class="btn-close">X</button>
   <form [formGroup]="addCommentForm" (ngSubmit)="onSubmit(); close()">
     <label for="name"></label>
     <input

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Board } from '../models/board.model';
+import { StatusE } from '../models/task.model';
 import { Store } from '@ngrx/store';
 import { deleteBoard, getBoards } from '../store/actions/boards.action';
 
@@ -18,9 +19,10 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  selector: 'boards-app',
+  selector: 'app-boards',
   templateUrl: './boards.component.html',
   styleUrls: ['./boards.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BoardsComponent implements OnInit {
   organize = {
@@ -34,7 +36,13 @@ export class BoardsComponent implements OnInit {
     editModal: false,
   };
 
-  currentUser: any;
+  status = {
+    todo: StatusE.TODO,
+    in_progress: StatusE.IN_PROGRESS,
+    done: StatusE.DONE,
+  };
+
+  currentUser!: string | null;
   activeBoard!: Board;
   boards$: Observable<Board[]> = this.store.select(selectAllBoards);
 
@@ -46,26 +54,26 @@ export class BoardsComponent implements OnInit {
     add: faPlus,
   };
 
-  constructor(
-    private store: Store<any>,
-    private activatedRoute: ActivatedRoute
-  ) {}
+  constructor(private store: Store, private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
     this.currentUser = this.activatedRoute.snapshot.paramMap.get('id');
+    if (this.currentUser === null) {
+      return;
+    }
     this.store.dispatch(getBoards({ id: this.currentUser }));
   }
 
-  onDelete(board: any) {
+  onDelete(board: Board) {
     this.store.dispatch(deleteBoard({ id: board.id }));
   }
 
-  onEdit(board: any) {
+  onEdit(board: Board) {
     this.activeBoard = board;
     this.modal.editModal = true;
   }
 
-  setSort(order: string, select: any) {
+  setSort(order: string, select: string) {
     this.organize.sortOrder = `${order} ${select}`;
   }
   setFilter(param: string) {
@@ -83,7 +91,7 @@ export class BoardsComponent implements OnInit {
     this.modal.editModal = false;
   }
 
-  taskPerColumn(taskArry: Partial<Task>[], status: string) {
+  taskPerColumn(taskArry: Partial<Task>[], status: StatusE): number {
     if (typeof taskArry === 'undefined') {
       return 0;
     }

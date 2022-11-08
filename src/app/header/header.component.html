@@ -1,11 +1,14 @@
 <h1>Task Tingz</h1>
 <nav *ngIf="currentUser$ | async as user">
   <ng-container *ngIf="user.email; else or">
-    <a routerLink="users/{{ user.id }}/boards" routerLinkActive="active"
+    <a
+      routerLink="users/{{ user.id }}/boards"
+      routerLinkActive="active"
+      (click)="clearState()"
       >Boards</a
     >
     <span> <fa-icon [icon]="userIcon"></fa-icon>{{ user.email }}</span>
-    <button type="button" (click)="logout()">Logout</button>
+    <button type="button" (click)="logout()" class="btn-main">Logout</button>
   </ng-container>
 </nav>
 
