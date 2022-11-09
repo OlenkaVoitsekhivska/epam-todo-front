@@ -1,21 +1,26 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { addTask } from 'src/app/store/actions/tasks.action';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
 @Component({
-  selector: 'app-addTask-form',
+  selector: 'app-add-task-form',
   templateUrl: './addTask.component.html',
   styleUrls: ['./addTask.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddTaskFormComponent implements OnInit {
+export class AddTaskFormComponent {
   constructor(private store: Store, private activatedRoute: ActivatedRoute) {}
   @Input() status = '';
   @Output() closeModal = new EventEmitter<boolean>();
   file: any = null;
-
-  ngOnInit(): void {}
 
   onSubmit(form: NgForm) {
     const boardId: any = this.activatedRoute.snapshot.paramMap.get('id');

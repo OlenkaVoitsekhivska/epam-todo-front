@@ -13,3 +13,9 @@ export interface Board {
     col3: string;
   };
 }
+
+export interface UpdateColor {
+  col1: string;
+  col2: string;
+  col3: string;
+}

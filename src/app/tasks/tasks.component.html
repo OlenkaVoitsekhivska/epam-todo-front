@@ -1,9 +1,7 @@
-<div class="container">
-
-
+<div class="container" *ngIf="(tasks$ | async) && (uiPreferences$ | async)">
   <div class="filter-sort">
     <div class="filter">
-      <select name="" id="" #filterParam>
+      <select name="tasks-filter" id="tasks-filter" #filterParam>
         <option value="">Filter By</option>
         <option value="task">Task name</option>
       </select>
@@ -18,17 +16,25 @@
     </div>
 
     <div class="sort">
-      <select name="" id="" #select>
+      <select name="tasks-sort" id="tasks-sort" #select>
         <option value="">Sort By</option>
         <option value="name">name</option>
         <option value="date">date</option>
       </select>
 
-      <button (click)="setSort(asc.innerText, select.value)" #asc>
-        ASC<fa-icon [icon]="icons.asc"></fa-icon>
+      <button
+        (click)="setSort(asc.innerText, select.value)"
+        #asc
+        class="btn-main"
+      >
+        ASC<fa-icon [icon]="icons.asc" class="icon-sort"></fa-icon>
       </button>
-      <button (click)="setSort(desc.innerText, select.value)" #desc>
-        DESC<fa-icon [icon]="icons.desc"></fa-icon>
+      <button
+        (click)="setSort(desc.innerText, select.value)"
+        #desc
+        class="btn-main"
+      >
+        DESC<fa-icon [icon]="icons.desc" class="icon-sort"></fa-icon>
       </button>
     </div>
   </div>
@@ -36,9 +42,7 @@
   <div *ngIf="tasks$ | async as todos" class="todo__columns">
     <div
       class="column"
-      appColorpicker
-      [bcg]="columnBcg.col1"
-      [style.background-color]="columnBcg.col1"
+      [style.background-color]="(uiPreferences$ | async).col1"
       cdkDropList
       #todoList="cdkDropList"
       id="Todo"
@@ -64,7 +68,7 @@
           </ng-container>
         </div>
       </div>
-      <button (click)="openAddTaskModal('Todo')" class="todo-add">
+      <button (click)="openAddTaskModal(status.todo)" class="todo-add">
         <fa-icon [icon]="icons.add"></fa-icon>
       </button>
       <div
@@ -99,7 +103,7 @@
           <ng-container *ngIf="showComments.show">
             <ng-container *ngIf="conditionShowComments(todo) as comments">
               <div *ngFor="let comment of comments" class="comment-actions">
-                <h3>{{ comment.name }}</h3>
+                <h4>{{ comment.name }}</h4>
                 <button (click)="deleteComment(comment.id)">
                   <fa-icon [icon]="icons.delete"></fa-icon>
                 </button>
@@ -112,9 +116,7 @@
 
     <div
       class="column"
-      appColorpicker
-      [bcg]="columnBcg.col2"
-      [style.background-color]="columnBcg.col2"
+      [style.background-color]="(uiPreferences$ | async).col2"
       cdkDropList
       #progressList="cdkDropList"
       id="In progress"
@@ -130,7 +132,6 @@
             (click)="toggleColorpicker('col2')"
             class="colorpicker"
           >
-            <!-- {{ showColorpicker["col2"] ? "Hide colorpicker" : "Show colorpicker" }} -->
             <fa-icon [icon]="icons.paint"></fa-icon>
           </button>
 
@@ -143,7 +144,7 @@
         </div>
       </div>
 
-      <button (click)="openAddTaskModal('In progress')" class="todo-add">
+      <button (click)="openAddTaskModal(status.in_progress)" class="todo-add">
         <fa-icon [icon]="icons.add"></fa-icon>
       </button>
       <div
@@ -159,9 +160,7 @@
           <h3>{{ progress.name }}</h3>
           <p>{{ progress.createdAt | date }}</p>
           <ng-container *ngIf="progress.image">
-            <ng-container *ngIf="progress.image">
-              <img [src]="progress.image" alt="" />
-            </ng-container>
+            <img [src]="progress.image" alt="" />
           </ng-container>
 
           <div class="btn-actions">
@@ -179,7 +178,7 @@
           <ng-container *ngIf="showComments.show">
             <ng-container *ngIf="conditionShowComments(progress) as comments">
               <div *ngFor="let comment of comments" class="comment-actions">
-                <h3>{{ comment.name }}</h3>
+                <h4>{{ comment.name }}</h4>
                 <button (click)="deleteComment(comment.id)">
                   <fa-icon [icon]="icons.delete"></fa-icon>
                 </button>
@@ -192,9 +191,7 @@
 
     <div
       class="column"
-      appColorpicker
-      [bcg]="columnBcg.col3"
-      [style.background-color]="columnBcg.col3"
+      [style.background-color]="(uiPreferences$ | async).col3"
       cdkDropList
       #doneList="cdkDropList"
       [cdkDropListData]="todos | status: 'Done'"
@@ -210,7 +207,6 @@
             (click)="toggleColorpicker('col3')"
             class="colorpicker"
           >
-            <!-- {{ showColorpicker["col3"] ? "Hide colorpicker" : "Show colorpicker" }} -->
             <fa-icon [icon]="icons.paint"></fa-icon>
           </button>
 
@@ -222,7 +218,7 @@
           </ng-container>
         </div>
       </div>
-      <button (click)="openAddTaskModal('Done')" class="todo-add">
+      <button (click)="openAddTaskModal(status.done)" class="todo-add">
         <fa-icon [icon]="icons.add"></fa-icon>
       </button>
       <div
@@ -255,7 +251,7 @@
           <ng-container *ngIf="showComments.show">
             <ng-container *ngIf="conditionShowComments(done) as comments">
               <div *ngFor="let comment of comments" class="comment-actions">
-                <h3>{{ comment.name }}</h3>
+                <h4>{{ comment.name }}</h4>
                 <button (click)="deleteComment(comment.id)">
                   <fa-icon [icon]="icons.delete"></fa-icon>
                 </button>
@@ -274,10 +270,10 @@
     </app-modal>
 
     <app-modal *ngIf="addModal" class="modal">
-      <app-addTask-form
+      <app-add-task-form
         [status]="statusOutput"
         (closeModal)="onClose()"
-      ></app-addTask-form>
+      ></app-add-task-form>
     </app-modal>
 
     <app-modal *ngIf="addCommentModal" class="modal">

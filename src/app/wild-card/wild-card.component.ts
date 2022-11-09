@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { currentUserSelector } from 'src/app/store/selectors/user.selectors';
@@ -7,11 +7,10 @@ import { currentUserSelector } from 'src/app/store/selectors/user.selectors';
   selector: 'app-wild-card',
   templateUrl: './wild-card.component.html',
   styleUrls: ['./wild-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WildCardComponent implements OnInit {
+export class WildCardComponent {
   currentUser$: Observable<any> = this.store.select(currentUserSelector);
 
   constructor(private store: Store) {}
-
-  ngOnInit(): void {}
 }

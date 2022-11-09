@@ -3,7 +3,7 @@ import * as TaskActions from '../actions/tasks.action';
 import { createReducer, on } from '@ngrx/store';
 import { Task } from 'src/app/models/task.model';
 
-export const initialState: any = [];
+export const initialState: Task[] = [];
 
 export const TasksReducer = createReducer(
   initialState,
@@ -37,5 +37,6 @@ export const TasksReducer = createReducer(
       return { ...task, userComments: updatedComments };
     });
     return newState;
-  })
+  }),
+  on(TaskActions.clearState, (state) => initialState)
 );

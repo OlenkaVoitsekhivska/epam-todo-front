@@ -1,7 +1,14 @@
+
 app-header {
     height: 80px;
     background-color: #ededeb;
     display: flex;
     justify-content: space-around;
-    align-items: center;
+    align-items: center;    
+}
+mat-spinner{
+    position: absolute;
+    top:25%;
+    left:50%;
+    transform: translateX(-50%);
 }

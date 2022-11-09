@@ -1,17 +1,23 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { updateBoard } from '../../store/actions/boards.action';
-import { ActivatedRoute } from '@angular/router';
 import { Board } from 'src/app/models/board.model';
 
 @Component({
-  selector: 'app-editBoard-form',
+  selector: 'app-edit-board-form',
   templateUrl: './editBoard.component.html',
-  // styleUrls: ['./addBoard.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditBoardFormComponent implements OnInit {
-  constructor(private store: Store, private activatedRoute: ActivatedRoute) {}
+  constructor(private store: Store) {}
   editBoardForm!: FormGroup;
 
   @Input() board!: Board;
@@ -39,7 +45,10 @@ export class EditBoardFormComponent implements OnInit {
   }
   onSubmit() {
     this.store.dispatch(
-      updateBoard({ id: this.board.id, board: this.editBoardForm.value })
+      updateBoard({
+        id: this.board.id,
+        board: { ...this.board, ...this.editBoardForm.value },
+      })
     );
     this.editBoardForm.reset();
     this.close();

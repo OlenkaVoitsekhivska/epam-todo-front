@@ -1,4 +1,5 @@
 <div class="wrapper">
+  <h1>Login</h1>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div>
       <label for="email"></label>
@@ -12,7 +13,7 @@
         *ngIf="email?.invalid && (email?.touched || email?.dirty)"
         class="error-message"
       >
-        Enter email
+        Invalid email
       </p>
     </div>
 
@@ -32,6 +33,12 @@
       </p>
     </div>
 
-    <button type="submit" [disabled]="loginForm.invalid">Sign-in</button>
+    <button type="submit" [disabled]="loginForm.invalid" class="btn-main">
+      Sign-in
+    </button>
+    <p>
+      Don't have an account yet? Click <a routerLink="/signup">here</a> to sign
+      up
+    </p>
   </form>
 </div>

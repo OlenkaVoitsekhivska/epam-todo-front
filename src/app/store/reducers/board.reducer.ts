@@ -3,19 +3,31 @@ import { createReducer, on } from '@ngrx/store';
 
 import { Board } from '../../models/board.model';
 
-export const initialState: Partial<Board> = {};
+export const initialState: Board = {
+  id: '',
+  createdAt: null,
+  name: null,
+  userId: '',
+  description: '',
+  tasks: [],
+  uiPreferences: {
+    col1: '',
+    col2: '',
+    col3: '',
+  },
+};
 
 export const BoardReducer = createReducer(
   initialState,
   on(BoardActions.getBoardByIdSuccess, (_, { board }) => board),
-  on(BoardActions.updateColor, (state, { id, board }) => {
-    const obj = {
+  on(BoardActions.updateColor, (state, { id, color }) => {
+    return {
       ...state,
       uiPreferences: {
         ...state.uiPreferences,
-        ...board,
+        ...color,
       },
     };
-    return obj;
-  })
+  }),
+  on(BoardActions.clearState, (state) => initialState)
 );

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Signup } from '../../store/actions/user.action';
 import { Store } from '@ngrx/store';
@@ -9,10 +9,8 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './signup-form.component.html',
   styleUrls: ['./signup-form.component.scss'],
 })
-export class SignupFormComponent implements OnInit {
+export class SignupFormComponent {
   constructor(private store: Store, private toastr: ToastrService) {}
-
-  ngOnInit(): void {}
 
   onSubmit(form: NgForm) {
     if (form.value.password !== form.value.passwordRep) {

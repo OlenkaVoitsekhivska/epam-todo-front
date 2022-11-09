@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import { Board } from '../models/board.model';
+import { Board, UpdateColor } from '../models/board.model';
 
 import { environment } from 'src/environments/environment.prod';
 
@@ -44,8 +44,8 @@ export class BoardService {
     return this.http.put<Board>(url, board);
   }
 
-  updateColor(id: string, board: Partial<Board>) {
+  updateColor(id: string, color: Partial<UpdateColor>) {
     const url = this.composeUrl(id);
-    return this.http.patch(url, board);
+    return this.http.patch(url, color);
   }
 }

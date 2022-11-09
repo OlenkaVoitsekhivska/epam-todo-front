@@ -51,6 +51,8 @@ import { CommentsEffects } from './store/effects/comments.effects';
 import { SingleBoardEffects } from './store/effects/board.effects';
 import { BoardReducer } from './store/reducers/board.reducer';
 import { WildCardComponent } from './wild-card/wild-card.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { RequestInterceptor } from './services/request.interceptor';
 
 @NgModule({
   declarations: [
@@ -84,7 +86,7 @@ import { WildCardComponent } from './wild-card/wild-card.component';
     ReactiveFormsModule,
     AppRoutingModule,
     DragDropModule,
-
+    MatProgressSpinnerModule,
     ToastrModule.forRoot({
       timeOut: 1000,
     }),
@@ -121,6 +123,11 @@ import { WildCardComponent } from './wild-card/wild-card.component';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RequestInterceptor,
       multi: true,
     },
   ],

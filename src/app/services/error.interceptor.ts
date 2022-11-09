@@ -8,10 +8,11 @@ import {
 } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, catchError, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private toastr: ToastrService) {}
+  constructor(private toastr: ToastrService, private router: Router) {}
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
@@ -26,6 +27,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         this.toastr.error(errorMessage, 'Error', {
           timeOut: 3000,
         });
+        this.router.navigate(['login']);
         return throwError(error);
       })
     );

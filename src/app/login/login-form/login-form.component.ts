@@ -30,6 +30,5 @@ export class LoginFormComponent implements OnInit {
 
   onSubmit() {
     this.store.dispatch(login({ user: this.loginForm.value }));
-    this.loginForm.reset();
   }
 }

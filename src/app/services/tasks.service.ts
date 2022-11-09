@@ -24,7 +24,7 @@ export class TaskService {
     return this.http.get<Task[]>(url);
   }
 
-  addTask(task: any, boardId: string) {
+  addTask(task: FormData, boardId: string) {
     const url = this.composeUrl(boardId);
     return this.http.post<Task>(url, task);
   }
@@ -34,7 +34,7 @@ export class TaskService {
     return this.http.delete(url);
   }
 
-  updateTask(task: any) {
+  updateTask(task: Task) {
     const url = this.composeUrl(task.id);
     return this.http.put<Task>(url, task);
   }

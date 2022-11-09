@@ -62,7 +62,7 @@ describe('BoardReducer', () => {
       const newPreference = { col1: '#F5FFF5' };
       const action = boardActions.updateColor({
         id: id,
-        board: newPreference,
+        color: newPreference,
       });
       const state = fromReducer.BoardReducer(newState, action);
       expect(state).toEqual(uiBoard);

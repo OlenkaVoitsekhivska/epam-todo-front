@@ -1,21 +1,16 @@
-
-.modal__contents{
-  position: absolute;
-  z-index:100;
-  // top:25%;
-  // left:25%;
-  top:50%;
-  left:50%;
-  transform: translate(-50%,-50%);
+.modal__contents {
+  position: fixed;
+  z-index: 100;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background: white;
   opacity: 1;
 }
-.modal__overlay{
+.modal__overlay {
   background: black;
-  opacity:0.8;
+  opacity: 0.8;
   width: 100vw;
   height: 100vh;
-  position:relative;
+  position: fixed;
 }
-
-

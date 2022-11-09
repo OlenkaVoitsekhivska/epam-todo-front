@@ -1,13 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
 })
-export class ModalComponent implements OnInit {
-  constructor(private store: Store) {}
-
-  ngOnInit() {}
-}
+export class ModalComponent {}

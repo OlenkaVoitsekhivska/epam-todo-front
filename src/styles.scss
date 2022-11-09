@@ -3,8 +3,12 @@
 html,
 body {
   height: 100%;
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
+
 button {
+transition: background-color 1s;
   &:hover {
     cursor: pointer;
   }
@@ -16,19 +20,47 @@ h1 {
   text-align: center;
 }
 
-body {
-  margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+h1,h2,button{
+  font-family: 'Libre Baskerville', serif;
 }
+a,h1,h2,h3,p,li{
+  color: #192230;
+}
+
+
 .wrapper {
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-  padding: 50px 25px;
+  padding: 25px 25px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 300px;
   border-radius: 4px;
   background-color: white;
+  button{
+    border:none;
+    border-radius:4px;
+    margin: 0 auto;
+    height: 40px;
+    background-color: #192230;
+    color:white;
+    &:hover{
+      background-color: #608dff;
+    }
+    &[disabled]{
+        background-color: grey;
+        cursor:auto;
+    }
+
+  }
+  .btn-close{
+    display: block;
+    margin-left: auto;
+    margin-right: 0;
+    margin-bottom: 35px;
+    width: 40px;
+  }
 }
 form {
   display: flex;
@@ -36,11 +68,22 @@ form {
   input {
     box-sizing: border-box;
     border-radius:4px;
-    margin-bottom: 15px;
+    margin-bottom: 35px;
     height: 28px;
     width: 100%;
+    border-bottom-right-radius: 8px;
+    border:none;
+    border-bottom: 1px solid black;
     &.ng-invalid.ng-touched{
-      border:3px solid red;
+      border-bottom: 2px solid red;
+      &::placeholder{
+        color:red;
+      }
+  
+    }
+    &:focus-visible{
+      outline:none;
+      border-bottom: 2px solid #608dff;
     }
   }
   .error-message{
@@ -55,10 +98,71 @@ form {
     width: 150px;
     height: 50px;
   }
+  a{
+    color:#608dff;
+    text-decoration: underline;
+  }
 }
+
+.btn-main{
+  border:none;
+  border-radius:4px;
+  margin: 0 auto;
+  width: 100px;
+  height: 40px;
+  background-color: #192230;
+  color:white;
+  &[disabled]{
+      background-color: grey;
+      cursor:auto;
+  }
+  &:hover{
+    background-color: #608dff;
+  }
+}
+
+
 
 .container {
   padding: 50px 0 0 0;
 }
+
+select{
+  margin-right:35px;
+}
+
+.filter-sort{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  button{
+    height: 24px;
+    &:not(:last-child){
+      margin-right: 10px;
+    }
+    .icon-sort{
+      margin-left:10px;
+    }
+  }
+  select,input{
+    box-sizing: border-box;
+    height: 24px; 
+    border-bottom-right-radius: 8px;
+    border:none;
+    border-bottom: 1px solid black;
+ 
+  }
+  select{
+    width: 100px;
+    &:focus-visible{
+      outline:none;
+      border-bottom: 1px solid #608dff;
+    }
+  }
+
+}
+
+
 
 @import '~ngx-toastr/toastr.css';

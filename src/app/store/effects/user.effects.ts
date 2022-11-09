@@ -8,6 +8,8 @@ import { concatMap, map, switchMap, tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
+const USER = 'user';
+
 @Injectable()
 export class UserEffects {
   addUser$ = createEffect(() =>
@@ -28,7 +30,7 @@ export class UserEffects {
       switchMap(({ user }) =>
         this.authService.handleLogin(user).pipe(
           tap((res) => {
-            localStorage.setItem('user', JSON.stringify(res));
+            localStorage.setItem(USER, JSON.stringify(res));
             this.toastr.success('Welcome back');
             this.router.navigate([`/users/${res.id}/boards`]);
           }),
@@ -44,7 +46,7 @@ export class UserEffects {
       concatMap(() =>
         this.authService.handleLogout().pipe(
           tap(() => {
-            localStorage.removeItem('user');
+            localStorage.removeItem(USER);
             this.router.navigate(['login']);
           }),
           map(() => UserActions.logoutSuccess())
