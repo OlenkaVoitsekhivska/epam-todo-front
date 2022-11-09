@@ -1,6 +1,13 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
-import { concatMap, map, switchMap, tap } from 'rxjs/operators';
+import {
+  concatMap,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import * as BoardActions from '../actions/board.action';
 
 import { BoardService } from '../../services/boards.service';
@@ -25,6 +32,8 @@ export class SingleBoardEffects {
   updateColor$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BoardActions.updateColor),
+      debounceTime(500),
+      distinctUntilChanged(),
       concatMap(({ id, color }) =>
         this.boardService
           .updateColor(id, color)
