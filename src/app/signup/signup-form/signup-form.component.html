@@ -1,10 +1,7 @@
 <div class="wrapper">
   <h1>Sign up</h1>
-  <form
-    (ngSubmit)="onSubmit(signupForm); signupForm.reset()"
-    #signupForm="ngForm"
-  >
-    <div>
+  <form (ngSubmit)="onSubmit(signupForm)" #signupForm="ngForm">
+    <div class="input-wrapper">
       <label for="username"></label>
       <input
         type="text"
@@ -16,7 +13,7 @@
         required
       />
     </div>
-    <div>
+    <div class="input-wrapper">
       <label for="email"></label>
       <input
         type="email"
@@ -30,7 +27,7 @@
       />
     </div>
 
-    <div>
+    <div class="input-wrapper">
       <label for="password"></label>
       <input
         type="password"
@@ -42,7 +39,7 @@
         required
       />
     </div>
-    <div>
+    <div class="input-wrapper">
       <label for="passwordRep"></label>
       <input
         type="password"
@@ -54,7 +51,7 @@
         required
       />
     </div>
-    <div>
+    <div class="input-wrapper">
       <label for="phone"></label>
       <input
         type="tel"

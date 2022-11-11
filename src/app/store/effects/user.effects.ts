@@ -4,7 +4,7 @@ import * as UserActions from '../actions/user.action';
 import { AuthService } from '../../services/auth.service';
 import { Injectable } from '@angular/core';
 
-import { concatMap, map, switchMap, tap } from 'rxjs';
+import { catchError, concatMap, map, switchMap, tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
@@ -12,13 +12,32 @@ const USER = 'user';
 
 @Injectable()
 export class UserEffects {
+  // addUser$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(UserActions.Signup),
+  //     switchMap(({ user }) =>
+  //       this.authService.handleSignup(user).pipe(
+  //         tap(() => this.router.navigate([`/login`])),
+  //         map((user) => UserActions.SignupSuccess({ user }))
+  //       )
+  //     )
+  //   )
+  // );
+
   addUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.Signup),
       switchMap(({ user }) =>
         this.authService.handleSignup(user).pipe(
-          tap(() => this.router.navigate([`/login`])),
-          map((user) => UserActions.SignupSuccess({ user }))
+          // tap((user) => {
+          //   if (user) {
+          //     this.router.navigate([`/login`]);
+          //   }
+          // }),
+          map((user) => {
+            this.router.navigate([`/login`]);
+            return UserActions.SignupSuccess({ user });
+          })
         )
       )
     )

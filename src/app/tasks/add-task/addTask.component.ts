@@ -13,7 +13,6 @@ import { Store } from '@ngrx/store';
 @Component({
   selector: 'app-add-task-form',
   templateUrl: './addTask.component.html',
-  styleUrls: ['./addTask.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddTaskFormComponent {

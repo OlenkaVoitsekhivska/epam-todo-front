@@ -6,9 +6,12 @@ body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
+.disableScroll {
+  overflow: hidden;
+}
 
 button {
-transition: background-color 1s;
+  transition: background-color 1s;
   &:hover {
     cursor: pointer;
   }
@@ -20,13 +23,19 @@ h1 {
   text-align: center;
 }
 
-h1,h2,button{
+h1,
+h2,
+button {
   font-family: 'Libre Baskerville', serif;
 }
-a,h1,h2,h3,p,li{
+a,
+h1,
+h2,
+h3,
+p,
+li {
   color: #192230;
 }
-
 
 .wrapper {
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
@@ -38,23 +47,46 @@ a,h1,h2,h3,p,li{
   width: 300px;
   border-radius: 4px;
   background-color: white;
-  button{
-    border:none;
-    border-radius:4px;
+  form {
+    display: flex;
+    flex-direction: column;
+    input {
+      box-sizing: border-box;
+      margin-bottom: 5px;
+      height: 28px;
+      width: 100%;
+    }
+
+    button {
+      margin-bottom: 25px;
+    }
+  }
+  .input-wrapper {
+    margin-bottom: 35px;
+    position: relative;
+  }
+  .error-message {
+    position: absolute;
+    z-index: 1;
+    font-size: 13px;
+    margin: 0;
+  }
+  button {
+    border: none;
+    border-radius: 4px;
     margin: 0 auto;
     height: 40px;
     background-color: #192230;
-    color:white;
-    &:hover{
+    color: white;
+    &:hover {
       background-color: #608dff;
     }
-    &[disabled]{
-        background-color: grey;
-        cursor:auto;
+    &[disabled] {
+      background-color: grey;
+      cursor: auto;
     }
-
   }
-  .btn-close{
+  .btn-close {
     display: block;
     margin-left: auto;
     margin-right: 0;
@@ -67,28 +99,27 @@ form {
   flex-direction: column;
   input {
     box-sizing: border-box;
-    border-radius:4px;
+    border-radius: 4px;
     margin-bottom: 35px;
     height: 28px;
     width: 100%;
     border-bottom-right-radius: 8px;
-    border:none;
+    border: none;
     border-bottom: 1px solid black;
-    &.ng-invalid.ng-touched{
+    &.ng-invalid.ng-touched {
       border-bottom: 2px solid red;
-      &::placeholder{
-        color:red;
+      &::placeholder {
+        color: red;
       }
-  
     }
-    &:focus-visible{
-      outline:none;
+    &:focus-visible {
+      outline: none;
       border-bottom: 2px solid #608dff;
     }
   }
-  .error-message{
+  .error-message {
     color: red;
-}
+  }
 
   button {
     border: none;
@@ -98,71 +129,66 @@ form {
     width: 150px;
     height: 50px;
   }
-  a{
-    color:#608dff;
+  a {
+    color: #608dff;
     text-decoration: underline;
   }
 }
 
-.btn-main{
-  border:none;
-  border-radius:4px;
+.btn-main {
+  border: none;
+  border-radius: 4px;
   margin: 0 auto;
   width: 100px;
   height: 40px;
   background-color: #192230;
-  color:white;
-  &[disabled]{
-      background-color: grey;
-      cursor:auto;
+  color: white;
+  &[disabled] {
+    background-color: grey;
+    cursor: auto;
   }
-  &:hover{
+  &:hover {
     background-color: #608dff;
   }
 }
-
-
 
 .container {
   padding: 50px 0 0 0;
 }
 
-select{
-  margin-right:35px;
+select {
+  margin-right: 35px;
 }
 
-.filter-sort{
+.filter-sort {
   display: flex;
   flex-direction: column;
   text-align: center;
   justify-content: center;
-  button{
+  button {
     height: 24px;
-    &:not(:last-child){
+    &:not(:last-child) {
       margin-right: 10px;
     }
-    .icon-sort{
-      margin-left:10px;
+    .icon-sort {
+      margin-left: 10px;
     }
   }
-  select,input{
+  select,
+  input {
     box-sizing: border-box;
-    height: 24px; 
+    height: 24px;
     border-bottom-right-radius: 8px;
-    border:none;
+    border: none;
     border-bottom: 1px solid black;
- 
   }
-  select{
+  select {
     width: 100px;
-    &:focus-visible{
-      outline:none;
+    &:focus-visible {
+      outline: none;
       border-bottom: 1px solid #608dff;
     }
   }
-
 }
-
-
 
 @import '~ngx-toastr/toastr.css';

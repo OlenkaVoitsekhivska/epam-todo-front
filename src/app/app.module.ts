@@ -89,6 +89,7 @@ import { RequestInterceptor } from './services/request.interceptor';
     MatProgressSpinnerModule,
     ToastrModule.forRoot({
       timeOut: 1000,
+      preventDuplicates: true,
     }),
 
     StoreModule.forRoot(

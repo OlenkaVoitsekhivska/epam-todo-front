@@ -7,7 +7,6 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-signup-form',
   templateUrl: './signup-form.component.html',
-  styleUrls: ['./signup-form.component.scss'],
 })
 export class SignupFormComponent {
   constructor(private store: Store, private toastr: ToastrService) {}

@@ -1,4 +1,7 @@
-<div class="container" *ngIf="(tasks$ | async) && (uiPreferences$ | async)">
+<div
+  class="container"
+  *ngIf="(tasks$ | async) && (uiPreferences$ | async)"
+>
   <div class="filter-sort">
     <div class="filter">
       <select name="tasks-filter" id="tasks-filter" #filterParam>
