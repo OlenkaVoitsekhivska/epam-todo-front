@@ -94,12 +94,13 @@
           </button>
         </div>
       </div>
-      <app-modal *ngIf="modal.editModal" class="addBoardModal">
-        <app-edit-board-form
-          [board]="activeBoard"
-          (closeModal)="onClose()"
-        ></app-edit-board-form>
-      </app-modal>
     </div>
   </div>
 </div>
+
+<app-modal *ngIf="modal.editModal" class="addBoardModal">
+  <app-edit-board-form
+    [board]="activeBoard"
+    (closeModal)="onClose()"
+  ></app-edit-board-form>
+</app-modal>

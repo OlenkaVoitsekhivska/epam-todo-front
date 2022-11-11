@@ -29,7 +29,10 @@ export class EditBoardFormComponent implements OnInit {
         Validators.required,
         Validators.minLength(1),
       ]),
-      description: new FormControl(this.board.description),
+      description: new FormControl(this.board.description, [
+        Validators.required,
+        Validators.minLength(1),
+      ]),
     });
   }
 

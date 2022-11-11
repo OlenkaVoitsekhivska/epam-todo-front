@@ -15,7 +15,6 @@ import { updateTask } from 'src/app/store/actions/tasks.action';
 @Component({
   selector: 'app-edit-task',
   templateUrl: './edit-task.component.html',
-  styleUrls: ['./edit-task.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditTaskComponent implements OnInit {

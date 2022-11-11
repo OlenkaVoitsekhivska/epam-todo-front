@@ -1,7 +1,7 @@
 <div class="wrapper">
   <button (click)="close()" class="btn-close">X</button>
   <form [formGroup]="editTaskForm" (ngSubmit)="onSubmit()">
-    <div>
+    <div class="input-wrapper">
       <label for="name"></label>
       <input
         matInput

@@ -23,11 +23,12 @@ export class ErrorInterceptor implements HttpInterceptor {
         if (error.error.message) {
           errorMessage = error.error.message;
         }
-
         this.toastr.error(errorMessage, 'Error', {
           timeOut: 3000,
         });
-        this.router.navigate(['login']);
+        if (error.status !== 409) {
+          this.router.navigate(['login']);
+        }
         return throwError(error);
       })
     );
