@@ -24,28 +24,28 @@ export class BoardService {
     return this.http.get<Board[]>(url);
   }
 
-  getBoardById(id: string) {
+  getBoardById(id: string): Observable<Board> {
     const url = `${this.composeUrl(id)}/getTasks`;
     return this.http.get<Board>(url);
   }
 
-  addBoard(board: Board, userId: string) {
+  addBoard(board: Board, userId: string): Observable<Board> {
     const url = this.composeUrl(userId);
     return this.http.post<Board>(url, board);
   }
 
-  deleteBoard(id: string) {
+  deleteBoard(id: string): Observable<string> {
     const url = this.composeUrl(id);
-    return this.http.delete(url);
+    return this.http.delete<string>(url);
   }
 
-  updateBoard(id: string, board: Partial<Board>) {
+  updateBoard(id: string, board: Partial<Board>): Observable<Board> {
     const url = this.composeUrl(id);
     return this.http.put<Board>(url, board);
   }
 
-  updateColor(id: string, color: Partial<UpdateColor>) {
+  updateColor(id: string, color: Partial<UpdateColor>): Observable<Board> {
     const url = this.composeUrl(id);
-    return this.http.patch(url, color);
+    return this.http.patch<Board>(url, color);
   }
 }

@@ -19,6 +19,12 @@
       </p>
     </div>
 
-    <button type="submit" [disabled]="editTaskForm.invalid">Edit Task</button>
+    <button
+      type="submit"
+      [disabled]="editTaskForm.invalid"
+      data-testid="editTask-btn"
+    >
+      Edit Task
+    </button>
   </form>
 </div>

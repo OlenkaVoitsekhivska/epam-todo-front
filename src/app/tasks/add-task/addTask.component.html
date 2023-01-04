@@ -1,5 +1,5 @@
 <div class="wrapper">
-  <button (click)="close()" class="btn-close">X</button>
+  <button (click)="close()" class="btn-close" data-testid="close-btn">X</button>
   <form
     (ngSubmit)="onSubmit(addTaskForm)"
     #addTaskForm="ngForm"
@@ -29,6 +29,12 @@
         (change)="uploadImage($event)"
       />
     </div>
-    <button type="submit" [disabled]="addTaskForm.invalid">Add Task</button>
+    <button
+      type="submit"
+      [disabled]="addTaskForm.invalid"
+      data-testid="addtask-btn"
+    >
+      Add Task
+    </button>
   </form>
 </div>

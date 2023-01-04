@@ -33,7 +33,12 @@
       </p>
     </div>
 
-    <button type="submit" [disabled]="loginForm.invalid" class="btn-main">
+    <button
+      type="submit"
+      [disabled]="loginForm.invalid"
+      class="btn-main"
+      data-testid="login-btn"
+    >
       Sign-in
     </button>
     <p>

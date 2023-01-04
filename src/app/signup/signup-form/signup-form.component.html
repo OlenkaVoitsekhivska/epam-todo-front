@@ -62,7 +62,12 @@
         ngModel
       />
     </div>
-    <button type="submit" [disabled]="signupForm.invalid" class="btn-main">
+    <button
+      type="submit"
+      [disabled]="signupForm.invalid"
+      class="btn-main"
+      data-testid="signup-btn"
+    >
       Signup
     </button>
   </form>

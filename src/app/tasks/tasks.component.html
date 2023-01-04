@@ -1,7 +1,4 @@
-<div
-  class="container"
-  *ngIf="(tasks$ | async) && (uiPreferences$ | async)"
->
+<div class="container" *ngIf="(tasks$ | async) && (uiPreferences$ | async)">
   <div class="filter-sort">
     <div class="filter">
       <select name="tasks-filter" id="tasks-filter" #filterParam>
@@ -71,7 +68,11 @@
           </ng-container>
         </div>
       </div>
-      <button (click)="openAddTaskModal(status.todo)" class="todo-add">
+      <button
+        (click)="openAddTaskModal(status.todo)"
+        class="todo-add"
+        data-testid="addTask-btn"
+      >
         <fa-icon [icon]="icons.add"></fa-icon>
       </button>
       <div
@@ -167,7 +168,11 @@
           </ng-container>
 
           <div class="btn-actions">
-            <button (click)="deleteTask(progress.id)" type="button">
+            <button
+              (click)="deleteTask(progress.id)"
+              type="button"
+              data-testid="deleteTask-btn"
+            >
               <fa-icon [icon]="icons.delete"></fa-icon>
             </button>
             <button (click)="onEdit(progress)">

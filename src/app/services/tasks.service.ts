@@ -24,17 +24,17 @@ export class TaskService {
     return this.http.get<Task[]>(url);
   }
 
-  addTask(task: FormData, boardId: string) {
+  addTask(task: FormData, boardId: string): Observable<Task> {
     const url = this.composeUrl(boardId);
     return this.http.post<Task>(url, task);
   }
 
-  deleteTask(id: string) {
+  deleteTask(id: string): Observable<string> {
     const url = this.composeUrl(id);
-    return this.http.delete(url);
+    return this.http.delete<string>(url);
   }
 
-  updateTask(task: Task) {
+  updateTask(task: Task): Observable<Task> {
     const url = this.composeUrl(task.id);
     return this.http.put<Task>(url, task);
   }
