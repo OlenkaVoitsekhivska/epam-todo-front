@@ -2,7 +2,6 @@ import * as commentActions from '../actions/comment.actions';
 import * as fromReducer from './tasks.reducer';
 import * as tasksActions from '../actions/tasks.action';
 import { StatusE } from 'src/app/models/task.model';
-import { Task } from 'src/app/models/task.model';
 
 const singleTask = {
   id: '123',

@@ -6,7 +6,17 @@ export const mockBoards: Board[] = [
     id: '1',
     name: 'board',
     description: 'baord description',
-    tasks: [],
+    tasks: [
+      {
+        id: '1',
+        name: 'updated task',
+        boardId: 'b-1',
+        userComments: [],
+        image: '',
+        status: StatusE.IN_PROGRESS,
+        createdAt: new Date('October 31, 2022 03:24:00'),
+      },
+    ],
     createdAt: new Date('October 31, 2022 03:24:00'),
     userId: 'u-1',
     uiPreferences: {

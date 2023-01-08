@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddCommentComponent } from './add-comment.component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { FormControl, FormGroup } from '@angular/forms';
 import { mockCreatedSingleTask } from 'src/mockData/tasks/tasks';
 import { addComment } from 'src/app/store/actions/comment.actions';
 import { DebugElement } from '@angular/core';

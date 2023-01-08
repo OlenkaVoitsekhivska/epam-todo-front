@@ -2,7 +2,7 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { SignupFormComponent } from './signup-form.component';
 import { ToastrService } from 'ngx-toastr';
 import { Signup } from 'src/app/store/actions/user.action';
@@ -15,7 +15,6 @@ describe('Login Component', () => {
   const initialState = {};
   const mockedToastrService = jasmine.createSpyObj('toastrService', ['error']);
 
-  // Arrange
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [SignupFormComponent],

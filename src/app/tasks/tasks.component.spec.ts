@@ -1,21 +1,15 @@
-import { DebugElement, EventEmitter } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TasksComponent } from './tasks.component';
-import {
-  mockCreatedSingleTask,
-  mockTasks,
-  mockUpdatedTask,
-} from 'src/mockData/tasks/tasks';
+import { mockCreatedSingleTask, mockTasks } from 'src/mockData/tasks/tasks';
 import { RouterTestingModule } from '@angular/router/testing';
 import { GetTasks, deleteTask } from '../store/actions/tasks.action';
-import { getBoardById, updateColor } from '../store/actions/board.action';
-import { from, fromEvent, of } from 'rxjs';
+import { getBoardById } from '../store/actions/board.action';
+import { of } from 'rxjs';
 import { StatusE } from '../models/task.model';
 import { deleteComment } from '../store/actions/comment.actions';
-import { mockSingleBoard } from 'src/mockData/boards/boards';
 
 describe('Tasks component', () => {
   let fixture: ComponentFixture<TasksComponent>;
@@ -151,25 +145,4 @@ describe('Tasks component', () => {
     componentInstance.toggleColorpicker(col);
     expect(componentInstance.showColorpicker[col]).toBeFalse();
   });
-
-  // it('should dispatch updateColor action', async () => {
-  //   const dispatchSpy = spyOn(store, 'dispatch').and.callThrough();
-  //   const board = { ...mockSingleBoard };
-  //   const colorpicker = debugElement.nativeElement.querySelector(
-  //     'input[type="color"]'
-  //   );
-  //   const column = 'col1';
-  //   const inputStream = fromEvent(colorpicker, 'input');
-  //   inputStream.subscribe((res) => {
-  //     componentInstance.handleColorSwitch(
-  //       board.id,
-  //       column,
-  //       colorpicker.triggerEventHandler('input', { value: '#fcba03' })
-  //     );
-  //     const data = { [column]: '#fcba03' };
-  //     expect(dispatchSpy).toHaveBeenCalledWith(
-  //       updateColor({ id: board.id, color: data })
-  //     );
-  //   });
-  // });
 });

@@ -5,7 +5,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { mockLoggedUser } from 'src/mockData/user/mockLoggedUser';
-import { EMPTY, of } from 'rxjs';
+import { of } from 'rxjs';
 
 describe('WildCardComponent', () => {
   let component: WildCardComponent;

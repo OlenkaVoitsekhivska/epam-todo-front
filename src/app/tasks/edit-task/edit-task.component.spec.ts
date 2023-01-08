@@ -4,10 +4,7 @@ import { By } from '@angular/platform-browser';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditTaskComponent } from './edit-task.component';
-import {
-  mockCreatedSingleTask,
-  mockUpdatedTask,
-} from 'src/mockData/tasks/tasks';
+import { mockCreatedSingleTask } from 'src/mockData/tasks/tasks';
 
 describe('Edit task component', () => {
   let fixture: ComponentFixture<EditTaskComponent>;

@@ -14,7 +14,6 @@ describe('Add Board Component', () => {
   let componentInstance: AddBoardFormComponent;
   const initialState = { boards: [] };
 
-  // Arrange
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AddBoardFormComponent],

@@ -40,7 +40,7 @@ const sortingParams = {
   dt: 'DESC tasks',
 };
 
-describe('FilterBoardsPipe', () => {
+describe('SortBoardsPipe', () => {
   let sortPipe: SortPipe;
   let copy: any;
 
