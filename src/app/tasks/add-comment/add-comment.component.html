@@ -18,7 +18,11 @@
         Comment should contain at least 1 character
       </p>
     </div>
-    <button type="submit" [disabled]="addCommentForm.invalid">
+    <button
+      type="submit"
+      [disabled]="addCommentForm.invalid"
+      data-testid="submitComment-btn"
+    >
       Submit Comment
     </button>
   </form>

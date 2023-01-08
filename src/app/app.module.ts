@@ -43,7 +43,6 @@ import { UserEffects } from './store/effects/user.effects';
 import { HeaderComponent } from './header/header.component';
 
 import { environment } from '../environments/environment';
-import { ColorpickerDirective } from './directives/colorpicker/colorpicker.directive';
 
 import { AddCommentComponent } from './tasks/add-comment/add-comment.component';
 import { CommentsEffects } from './store/effects/comments.effects';
@@ -72,8 +71,6 @@ import { RequestInterceptor } from './services/request.interceptor';
     SignupFormComponent,
     HeaderComponent,
     FilterBoardsPipe,
-
-    ColorpickerDirective,
 
     AddCommentComponent,
     WildCardComponent,

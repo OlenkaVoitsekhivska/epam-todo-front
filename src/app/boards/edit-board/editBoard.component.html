@@ -8,7 +8,7 @@
         *ngIf="name?.invalid && (name?.touched || name?.dirty)"
         class="error-message"
       >
-        Task name should contain at least 1 character
+        Board name should contain at least 1 character
       </p>
     </div>
     <div class="input-wrapper">
@@ -25,9 +25,15 @@
         "
         class="error-message"
       >
-        Task description should contain at least 1 character
+        Board description should contain at least 1 character
       </p>
     </div>
-    <button type="submit" [disabled]="editBoardForm.invalid">Edit Board</button>
+    <button
+      type="submit"
+      [disabled]="editBoardForm.invalid"
+      data-btn="submit-btn"
+    >
+      Edit Board
+    </button>
   </form>
 </div>

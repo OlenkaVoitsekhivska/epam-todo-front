@@ -36,7 +36,7 @@ export class AuthService {
   handleLogout() {
     return this.http.get<{ message: string }>(this.composeUrl('logout'));
   }
-  refetchUser() {
-    return this.http.get<any>(this.composeUrl('current'));
-  }
+  // refetchUser() {
+  //   return this.http.get<any>(this.composeUrl('current'));
+  // }
 }

@@ -1,8 +1,6 @@
 import * as userActions from '../actions/user.action';
 import * as fromReducer from './user.reducer';
 
-import { User } from 'src/app/models/user.model';
-
 const user = {
   id: '123',
   token: '123',
